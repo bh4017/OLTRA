@@ -6,10 +6,11 @@
   </configuration>
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <widget-library name="../bin/Debug/OLTRA.exe" internal="true" />
     <widget-library name="MonoDevelop.Database.Components, Version=2.6.0.0, Culture=neutral" />
     <widget-library name="MonoDevelop.Database.ConnectionManager, Version=2.6.0.0, Culture=neutral" />
+    <widget-library name="MonoDevelop.Database.Sql, Version=2.2.0.0, Culture=neutral" />
     <widget-library name="MonoDevelop.Database.Query, Version=2.6.0.0, Culture=neutral" />
+    <widget-library name="../bin/Debug/OLTRA.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="MainWindow" design-size="844 459">
     <action-group name="Default">
