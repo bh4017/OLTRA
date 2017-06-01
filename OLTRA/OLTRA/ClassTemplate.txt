@@ -1,0 +1,48 @@
+﻿public class Template
+{
+    /*
+    * TITLE:       [TITLE]
+    * DESCRIPTION: [DESCRIPTION]
+    * AUTHOR:      [NAME]
+    * DATE:        [DATE]
+    * VERSION:     [VERSION]
+    */
+
+    #region FIELDS
+    /* CONSTANT FIELDS */
+    /* FIELDS */
+    #endregion
+    #region CONSTRUCTORS
+    public Template() {}
+    #endregion
+    #region FINALIZERS
+    /* FINALIZERS */
+    #endregion
+    #region DELEGATES
+    /* DELEGATES */
+    #endregion
+    #region EVENTS
+    /* EVENTS */
+    #endregion
+    #region ENUMS
+    /* ENUMS */
+    #endregion
+    #region INTERFACES
+    /* INTERFACES */
+    #endregion
+    #region PROPERTIES
+    /* PROPERTIES */
+    #endregion
+    #region INDEXERS
+    /* INDEXERS */
+    #endregion
+    #region METHODS
+    /* METHODS */
+    #endregion
+    #region STRUCTS
+    /* STRUCTS */
+    #endregion
+    #region CLASSES
+    /* CLASSES */
+    #endregion
+}

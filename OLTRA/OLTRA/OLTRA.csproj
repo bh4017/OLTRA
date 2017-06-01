@@ -75,6 +75,8 @@
     <EmbeddedResource Include="gtk-gui\gui.stetic">
       <LogicalName>gui.stetic</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\..\logo.png" />
+    <EmbeddedResource Include="..\..\logo_200.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="Logger.cs" />
     <Compile Include="AboutDialog.cs" />
     <Compile Include="gtk-gui\OLTRA.AboutDialog.cs" />
+    <Compile Include="ExtractionEngine.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
@@ -97,4 +100,7 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <None Include="ClassTemplate.txt" />
+  </ItemGroup>
 </Project>
