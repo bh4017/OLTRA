@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 namespace OLTRA
 {
     #region LOGGER BASE
-    abstract class LoggerBase
+    public abstract class LoggerBase
     {
         /*
         * TITLE:       [TITLE]
@@ -50,7 +50,7 @@ namespace OLTRA
         #endregion
         #region METHODS
         /* METHODS */
-        public abstract int Run();
+        public abstract int Log();
         public int LogToSQL()
         {
             return 0;
@@ -66,6 +66,122 @@ namespace OLTRA
         public int LogToDelimitedTextFile()
         {
             throw new NotImplementedException();
+        }
+        #endregion
+        #region STRUCTS
+        /* STRUCTS */
+        #endregion
+        #region CLASSES
+        /* CLASSES */
+        #endregion
+    }
+    #endregion
+    #region SQL_LOGGER
+    public class SQL_Logger : LoggerBase, ISerializable
+    {
+        /*
+    * TITLE:       [TITLE]
+    * DESCRIPTION: [DESCRIPTION]
+    * AUTHOR:      [NAME]
+    * DATE:        [DATE]
+    * VERSION:     [VERSION]
+    */
+
+        #region FIELDS
+        /* CONSTANT FIELDS */
+        /* FIELDS */
+        #endregion
+        #region CONSTRUCTORS
+        public SQL_Logger() {}
+        #endregion
+        #region FINALIZERS
+        /* FINALIZERS */
+        #endregion
+        #region DELEGATES
+        /* DELEGATES */
+        #endregion
+        #region EVENTS
+        /* EVENTS */
+        #endregion
+        #region ENUMS
+        /* ENUMS */
+        #endregion
+        #region INTERFACES
+        /* INTERFACES */
+        #endregion
+        #region PROPERTIES
+        /* PROPERTIES */
+        #endregion
+        #region INDEXERS
+        /* INDEXERS */
+        #endregion
+        #region METHODS
+        /* METHODS */
+        public override int Log()
+        {
+            return 0;
+        }
+        public void GetObjectData(SerializationInfo si, StreamingContext sc)
+        {
+
+        }
+        #endregion
+        #region STRUCTS
+        /* STRUCTS */
+        #endregion
+        #region CLASSES
+        /* CLASSES */
+        #endregion
+    }
+    #endregion
+    #region MYSQL_LOGGER
+    public class MySQL_Logger : LoggerBase, ISerializable
+    {
+        /*
+    * TITLE:       [TITLE]
+    * DESCRIPTION: [DESCRIPTION]
+    * AUTHOR:      [NAME]
+    * DATE:        [DATE]
+    * VERSION:     [VERSION]
+    */
+
+        #region FIELDS
+        /* CONSTANT FIELDS */
+        /* FIELDS */
+        #endregion
+        #region CONSTRUCTORS
+        public MySQL_Logger() {}
+        #endregion
+        #region FINALIZERS
+        /* FINALIZERS */
+        #endregion
+        #region DELEGATES
+        /* DELEGATES */
+        #endregion
+        #region EVENTS
+        /* EVENTS */
+        #endregion
+        #region ENUMS
+        /* ENUMS */
+        #endregion
+        #region INTERFACES
+        /* INTERFACES */
+        #endregion
+        #region PROPERTIES
+        /* PROPERTIES */
+        #endregion
+        #region INDEXERS
+        /* INDEXERS */
+        #endregion
+        #region METHODS
+        /* METHODS */
+        public override int Log()
+        {
+            return 0;
+        }
+        public void GetObjectData(SerializationInfo si, StreamingContext sc)
+        {
+
         }
         #endregion
         #region STRUCTS
