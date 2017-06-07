@@ -19,7 +19,7 @@ namespace OLTRA
         public int Status { get; private set; }
     }
 
-    public abstract class ExtractionEngineBase
+    public abstract class ExtractionEngine
     {
         /*
         * TITLE:       [TITLE]
@@ -35,7 +35,7 @@ namespace OLTRA
         /* FIELDS */
         #endregion
         #region CONSTRUCTORS
-        public ExtractionEngineBase()
+        public ExtractionEngine()
         {
         }
         #endregion
@@ -78,7 +78,7 @@ namespace OLTRA
         #endregion
     }
 
-    public class TextFileRegexExtractionEngine : ExtractionEngineBase, ISerializable
+    public class TextFileRegexExtractionEngine : ExtractionEngine, ISerializable
     {
         /*
         * TITLE:       [TITLE]

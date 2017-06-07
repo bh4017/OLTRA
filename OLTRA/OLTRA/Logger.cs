@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 namespace OLTRA
 {
     #region LOGGER BASE
-    public abstract class LoggerBase
+    public abstract class Logger
     {
         /*
         * TITLE:       [TITLE]
@@ -22,7 +22,7 @@ namespace OLTRA
         /* FIELDS */
         #endregion
         #region CONSTRUCTORS
-        public LoggerBase()
+        public Logger()
         {
         }
         #endregion
@@ -77,7 +77,7 @@ namespace OLTRA
     }
     #endregion
     #region SQL_LOGGER
-    public class SQL_Logger : LoggerBase, ISerializable
+    public class SQL_Logger : Logger, ISerializable
     {
         /*
     * TITLE:       [TITLE]
@@ -135,7 +135,7 @@ namespace OLTRA
     }
     #endregion
     #region MYSQL_LOGGER
-    public class MySQL_Logger : LoggerBase, ISerializable
+    public class MySQL_Logger : Logger, ISerializable
     {
         /*
     * TITLE:       [TITLE]

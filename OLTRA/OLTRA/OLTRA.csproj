@@ -91,6 +91,7 @@
     <Compile Include="AboutDialog.cs" />
     <Compile Include="gtk-gui\OLTRA.AboutDialog.cs" />
     <Compile Include="ExtractionEngine.cs" />
+    <Compile Include="Project.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

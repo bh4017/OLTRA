@@ -79,6 +79,14 @@ public partial class MainWindow
 	
 	private global::Gtk.VBox vbox4;
 	
+	private global::Gtk.Fixed fixed2;
+	
+	private global::Gtk.Button btn_AddEE;
+	
+	private global::Gtk.Button btn_AddLogger;
+	
+	private global::Gtk.Button button16;
+	
 	private global::Gtk.VBox vbox3;
 	
 	private global::Gtk.Label label5;
@@ -212,7 +220,7 @@ public partial class MainWindow
 		this.nbk_Main = new global::Gtk.Notebook ();
 		this.nbk_Main.CanFocus = true;
 		this.nbk_Main.Name = "nbk_Main";
-		this.nbk_Main.CurrentPage = 0;
+		this.nbk_Main.CurrentPage = 3;
 		// Container child nbk_Main.Gtk.Notebook+NotebookChild
 		this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
 		this.GtkScrolledWindow.Name = "GtkScrolledWindow";
@@ -354,19 +362,64 @@ public partial class MainWindow
 		this.vbox4 = new global::Gtk.VBox ();
 		this.vbox4.Name = "vbox4";
 		this.vbox4.Spacing = 6;
+		// Container child vbox4.Gtk.Box+BoxChild
+		this.fixed2 = new global::Gtk.Fixed ();
+		this.fixed2.HeightRequest = 16;
+		this.fixed2.Name = "fixed2";
+		this.fixed2.HasWindow = false;
+		this.vbox4.Add (this.fixed2);
+		global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.fixed2]));
+		w25.Position = 0;
+		w25.Expand = false;
+		w25.Fill = false;
+		// Container child vbox4.Gtk.Box+BoxChild
+		this.btn_AddEE = new global::Gtk.Button ();
+		this.btn_AddEE.CanFocus = true;
+		this.btn_AddEE.Name = "btn_AddEE";
+		this.btn_AddEE.UseUnderline = true;
+		this.btn_AddEE.Label = global::Mono.Unix.Catalog.GetString ("Add \nExtraction \nEngine");
+		this.vbox4.Add (this.btn_AddEE);
+		global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.btn_AddEE]));
+		w26.Position = 1;
+		w26.Expand = false;
+		w26.Fill = false;
+		// Container child vbox4.Gtk.Box+BoxChild
+		this.btn_AddLogger = new global::Gtk.Button ();
+		this.btn_AddLogger.CanFocus = true;
+		this.btn_AddLogger.Name = "btn_AddLogger";
+		this.btn_AddLogger.UseUnderline = true;
+		this.btn_AddLogger.Label = global::Mono.Unix.Catalog.GetString ("Add\nLogger");
+		this.vbox4.Add (this.btn_AddLogger);
+		global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.btn_AddLogger]));
+		w27.Position = 2;
+		w27.Expand = false;
+		w27.Fill = false;
+		// Container child vbox4.Gtk.Box+BoxChild
+		this.button16 = new global::Gtk.Button ();
+		this.button16.CanFocus = true;
+		this.button16.Name = "button16";
+		this.button16.UseUnderline = true;
+		this.button16.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
+		this.vbox4.Add (this.button16);
+		global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.button16]));
+		w28.Position = 3;
+		w28.Expand = false;
+		w28.Fill = false;
 		this.hbox4.Add (this.vbox4);
-		global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.vbox4]));
-		w25.Position = 2;
+		global::Gtk.Box.BoxChild w29 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.vbox4]));
+		w29.Position = 2;
+		w29.Expand = false;
+		w29.Fill = false;
 		// Container child hbox4.Gtk.Box+BoxChild
 		this.vbox3 = new global::Gtk.VBox ();
 		this.vbox3.Name = "vbox3";
 		this.vbox3.Spacing = 6;
 		this.hbox4.Add (this.vbox3);
-		global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.vbox3]));
-		w26.Position = 3;
+		global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.vbox3]));
+		w30.Position = 3;
 		this.nbk_Main.Add (this.hbox4);
-		global::Gtk.Notebook.NotebookChild w27 = ((global::Gtk.Notebook.NotebookChild)(this.nbk_Main [this.hbox4]));
-		w27.Position = 3;
+		global::Gtk.Notebook.NotebookChild w31 = ((global::Gtk.Notebook.NotebookChild)(this.nbk_Main [this.hbox4]));
+		w31.Position = 3;
 		// Notebook tab
 		this.label5 = new global::Gtk.Label ();
 		this.label5.Name = "label5";
@@ -374,8 +427,8 @@ public partial class MainWindow
 		this.nbk_Main.SetTabLabel (this.hbox4, this.label5);
 		this.label5.ShowAll ();
 		this.vbox1.Add (this.nbk_Main);
-		global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.nbk_Main]));
-		w28.Position = 4;
+		global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.nbk_Main]));
+		w32.Position = 4;
 		this.Add (this.vbox1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
