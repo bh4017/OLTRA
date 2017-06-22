@@ -89,6 +89,10 @@ public partial class MainWindow
 	
 	private global::Gtk.VBox vbox3;
 	
+	private global::Gtk.ScrolledWindow GtkScrolledWindow2;
+	
+	private global::Gtk.TreeView trv_ProjectViewer;
+	
 	private global::Gtk.Label label5;
 
 	protected virtual void Build ()
@@ -414,12 +418,24 @@ public partial class MainWindow
 		this.vbox3 = new global::Gtk.VBox ();
 		this.vbox3.Name = "vbox3";
 		this.vbox3.Spacing = 6;
+		// Container child vbox3.Gtk.Box+BoxChild
+		this.GtkScrolledWindow2 = new global::Gtk.ScrolledWindow ();
+		this.GtkScrolledWindow2.Name = "GtkScrolledWindow2";
+		this.GtkScrolledWindow2.ShadowType = ((global::Gtk.ShadowType)(1));
+		// Container child GtkScrolledWindow2.Gtk.Container+ContainerChild
+		this.trv_ProjectViewer = new global::Gtk.TreeView ();
+		this.trv_ProjectViewer.CanFocus = true;
+		this.trv_ProjectViewer.Name = "trv_ProjectViewer";
+		this.GtkScrolledWindow2.Add (this.trv_ProjectViewer);
+		this.vbox3.Add (this.GtkScrolledWindow2);
+		global::Gtk.Box.BoxChild w31 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.GtkScrolledWindow2]));
+		w31.Position = 0;
 		this.hbox4.Add (this.vbox3);
-		global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.vbox3]));
-		w30.Position = 3;
+		global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.vbox3]));
+		w32.Position = 3;
 		this.nbk_Main.Add (this.hbox4);
-		global::Gtk.Notebook.NotebookChild w31 = ((global::Gtk.Notebook.NotebookChild)(this.nbk_Main [this.hbox4]));
-		w31.Position = 3;
+		global::Gtk.Notebook.NotebookChild w33 = ((global::Gtk.Notebook.NotebookChild)(this.nbk_Main [this.hbox4]));
+		w33.Position = 3;
 		// Notebook tab
 		this.label5 = new global::Gtk.Label ();
 		this.label5.Name = "label5";
@@ -427,8 +443,8 @@ public partial class MainWindow
 		this.nbk_Main.SetTabLabel (this.hbox4, this.label5);
 		this.label5.ShowAll ();
 		this.vbox1.Add (this.nbk_Main);
-		global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.nbk_Main]));
-		w32.Position = 4;
+		global::Gtk.Box.BoxChild w34 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.nbk_Main]));
+		w34.Position = 4;
 		this.Add (this.vbox1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
