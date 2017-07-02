@@ -40,10 +40,23 @@
             new MainWindow();
         }
         #region EVENT HANDLERS
-        static void onDeleteEvent(object o, DeleteEventArgs args)
+        static void onDeleteEvent(object sender, DeleteEventArgs e)
         {
             Application.Quit();
         }
+        static void onProjNewClicked(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        static void onProjStatusClicked(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        static void onProjDeleteClicked(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
         #endregion
         #region STRUCTS

@@ -44,6 +44,8 @@
       <DeployService-Deploy>True</DeployService-Deploy>
     </Compile>
     <Compile Include="ClassTemplate.cs" />
+    <Compile Include="Project.cs" />
+    <Compile Include="Listeners.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\MainWindow.glade">
