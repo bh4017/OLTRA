@@ -8,6 +8,9 @@
         #region CONSTANT FIELDS
         #endregion
         #region FIELDS
+		[Builder.Object] private Button btn_proj_new;				
+		[Builder.Object] private Button btn_proj_status;			
+		[Builder.Object] private Button btn_proj_delete;
         #endregion
         #region CONSTRUCTORS
         public MainWindow()
@@ -15,8 +18,7 @@
             Gtk.Application.Init();
             Builder Gui = new Builder();
             Gui.AddFromFile("../../Resources/MainWindow.glade");
-
-            Gui.Autoconnect(this);
+			Gui.Autoconnect(this);
             Gtk.Application.Run();
         }
         #endregion
@@ -40,19 +42,19 @@
             new MainWindow();
         }
         #region EVENT HANDLERS
-        static void onDeleteEvent(object sender, DeleteEventArgs e)
+        private void onDeleteEvent(object sender, DeleteEventArgs e)
         {
             Application.Quit();
         }
-        static void onProjNewClicked(object sender, EventArgs e)
+        private void onProjNewClicked(object sender, EventArgs e)
+        {
+			btn_proj_new.Label = "hello";
+        }
+        private void onProjStatusClicked(object sender, EventArgs e)
         {
             throw new NotImplementedException();
         }
-        static void onProjStatusClicked(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        static void onProjDeleteClicked(object sender, EventArgs e)
+        private void onProjDeleteClicked(object sender, EventArgs e)
         {
             throw new NotImplementedException();
         }
