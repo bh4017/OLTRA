@@ -1,12 +1,12 @@
-﻿using System;
-using System.Timers;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
-using System.Collections.Generic;
-
-namespace OLTRA
+﻿namespace OLTRA
 {
+	using System;
+	using System.Timers;
+	using System.Runtime.Serialization;
+	using System.Runtime.Serialization.Formatters.Binary;
+	using System.IO;
+	using System.Collections.Generic;
+
     #region LISTENER BASE CLASS
     public abstract class ListenerBase
     {
@@ -114,7 +114,8 @@ namespace OLTRA
         #endregion
         #region CLASSES
         #endregion
-    }
-    #endregion
+    }             
+	#endregion
+
 }
 

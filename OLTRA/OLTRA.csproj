@@ -58,6 +58,8 @@
     <Compile Include="ClassTemplate.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Listeners.cs" />
+    <Compile Include="ExtractionEngines.cs" />
+    <Compile Include="Loggers.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\MainWindow.glade">

@@ -6,12 +6,15 @@ using System.Collections.Generic;
 
 namespace OLTRA
 {
+	public static class ProjectLister
+	{
+		public static List<Project> Projects { get; set; }
+	}
     public class Project
     {
         #region CONSTANT FIELDS
         #endregion
         #region FIELDS
-
         #endregion
         #region CONSTRUCTORS
         public Project () {}
@@ -27,6 +30,7 @@ namespace OLTRA
         #region INTERFACES
         #endregion
         #region PROPRERTIES
+		public List<ListenerBase> Listeners { get; protected set; }
         #endregion
         #region INDEXERS
         #endregion
