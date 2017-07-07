@@ -2,6 +2,7 @@
 {
     using Gtk;
     using System;
+    using System.Configuration;
 
     public class MainWindow
     {
@@ -11,6 +12,7 @@
 		[Builder.Object] private Button btn_proj_new;				
 		[Builder.Object] private Button btn_proj_status;			
 		[Builder.Object] private Button btn_proj_delete;
+        [Builder.Object] private Entry ent_proj_path;
         #endregion
         #region CONSTRUCTORS
         public MainWindow()
@@ -19,6 +21,7 @@
             Builder Gui = new Builder();
             Gui.AddFromFile("../../Resources/MainWindow.glade");
 			Gui.Autoconnect(this);
+            Gtk.Settings.Default.ThemeName = "Breeze Dark";
             Gtk.Application.Run();
         }
         #endregion
@@ -58,7 +61,19 @@
         {
             throw new NotImplementedException();
         }
+		private void onProjChoosePathClicked(object sender, EventArgs e)
+		{
+			FileChooserDialog fc = new FileChooserDialog ("Choose Project Path", null, FileChooserAction.SelectFolder, "Cancel",ResponseType.Cancel, "OK",ResponseType.Accept);
+			if (fc.Run () == (int)ResponseType.Accept) 
+            {
+                System.Configuration.ConfigurationSettings.AppSettings["ProjectsPath"] = fc.Filename;
 
+			} 
+			else
+				Console.WriteLine ("Cancelled Project Path setting");
+			
+            fc.Destroy ();
+		}
         #endregion
         #endregion
         #region STRUCTS
