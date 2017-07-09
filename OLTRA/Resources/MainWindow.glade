@@ -165,6 +165,7 @@ Author: Brian J Hoskins
     <property name="height_request">700</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <signal name="delete-event" handler="OnDeleteEvent" swapped="no"/>
     <child>
       <object class="GtkBox" id="box1">
         <property name="visible">True</property>
@@ -1133,24 +1134,6 @@ ID</property>
                                     <property name="top_attach">0</property>
                                   </packing>
                                 </child>
-                                <child>
-                                  <placeholder/>
-                                </child>
-                                <child>
-                                  <placeholder/>
-                                </child>
-                                <child>
-                                  <placeholder/>
-                                </child>
-                                <child>
-                                  <placeholder/>
-                                </child>
-                                <child>
-                                  <placeholder/>
-                                </child>
-                                <child>
-                                  <placeholder/>
-                                </child>
                               </object>
                             </child>
                           </object>
@@ -1167,30 +1150,6 @@ ID</property>
                         <property name="left_attach">0</property>
                         <property name="top_attach">0</property>
                       </packing>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
                     </child>
                   </object>
                   <packing>

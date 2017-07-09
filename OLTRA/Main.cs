@@ -13,6 +13,7 @@
 		[Builder.Object] private Button btn_proj_status;			
 		[Builder.Object] private Button btn_proj_delete;
         [Builder.Object] private Entry ent_proj_path;
+        
         #endregion
         #region CONSTRUCTORS
         public MainWindow()
@@ -21,13 +22,15 @@
             Builder Gui = new Builder();
             Gui.AddFromFile("../../Resources/MainWindow.glade");
 			Gui.Autoconnect(this);
-            Gtk.Settings.Default.ThemeName = "Breeze Dark";
+            Gtk.Settings.Default.ThemeName = "Adwaita-Dark-Green";
             Gtk.Application.Run();
+            GLib.Idle.Add(Startup);
         }
         #endregion
         #region DESTRUCTORS
         #endregion
         #region DELEGATES
+        public delegate bool InitialStartupCallBack();
         #endregion
         #region EVENTS
         #endregion
@@ -36,6 +39,7 @@
         #region INTERFACES
         #endregion
         #region PROPRERTIES
+        public Settings OLTRAsettings { get; set;}
         #endregion
         #region INDEXERS
         #endregion
@@ -43,15 +47,37 @@
         public static void Main()
         {
             new MainWindow();
+
+
         }
-        #region EVENT HANDLERS
-        private void onDeleteEvent(object sender, DeleteEventArgs e)
+        public void ConsoleMessage(string message)
+        {
+            DateTime dt = DateTime.Now;
+            Console.WriteLine(String.Format("{0:yyyy-MM-dd  HH:mm:ss} | {1}", dt, message));
+        }
+        public bool Startup()
+        {
+            OLTRAsettings = new Settings();
+            ConsoleMessage("Running initial startup routine");
+            return true;
+        }
+        public bool CloseApplication()
         {
             Application.Quit();
+            return true;
+        }
+        #region EVENT HANDLERS
+        private void OnDeleteEvent(object sender, DeleteEventArgs e)
+        {           
+            e.RetVal = CloseApplication();
+            Application.Quit();
+            string m = "OnDeleteEvent done: " + e.RetVal;
+            ConsoleMessage(m);
+            ConsoleMessage("Bye!");
         }
         private void onProjNewClicked(object sender, EventArgs e)
         {
-			btn_proj_new.Label = "hello";
+            ConsoleMessage("hello");
         }
         private void onProjStatusClicked(object sender, EventArgs e)
         {
@@ -66,8 +92,7 @@
 			FileChooserDialog fc = new FileChooserDialog ("Choose Project Path", null, FileChooserAction.SelectFolder, "Cancel",ResponseType.Cancel, "OK",ResponseType.Accept);
 			if (fc.Run () == (int)ResponseType.Accept) 
             {
-                System.Configuration.ConfigurationSettings.AppSettings["ProjectsPath"] = fc.Filename;
-
+                OLTRAsettings.HomeVar = fc.Filename;
 			} 
 			else
 				Console.WriteLine ("Cancelled Project Path setting");
