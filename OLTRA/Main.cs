@@ -3,6 +3,7 @@
     using Gtk;
     using System;
     using System.Configuration;
+    using HelperClassesBJH;
 
     public class MainWindow
     {
@@ -12,7 +13,7 @@
 		[Builder.Object] private Button btn_proj_new;				
 		[Builder.Object] private Button btn_proj_status;			
 		[Builder.Object] private Button btn_proj_delete;
-        [Builder.Object] private Entry ent_proj_path;
+        [Builder.Object] private Entry ent_path;
         
         #endregion
         #region CONSTRUCTORS
@@ -22,9 +23,9 @@
             Builder Gui = new Builder();
             Gui.AddFromFile("../../Resources/MainWindow.glade");
 			Gui.Autoconnect(this);
-            Gtk.Settings.Default.ThemeName = "Adwaita-Dark-Green";
+            Gtk.Settings.Default.ThemeName = "Equilux";
+            GLib.Idle.Add(Startup); // run the Startup method next time application is idle.
             Gtk.Application.Run();
-            GLib.Idle.Add(Startup);
         }
         #endregion
         #region DESTRUCTORS
@@ -47,8 +48,6 @@
         public static void Main()
         {
             new MainWindow();
-
-
         }
         public void ConsoleMessage(string message)
         {
@@ -58,8 +57,33 @@
         public bool Startup()
         {
             OLTRAsettings = new Settings();
-            ConsoleMessage("Running initial startup routine");
-            return true;
+            ConsoleMessage("Running initial startup routine.");
+            ConsoleMessage("Detected platform: " + Environment.OSVersion.Platform.ToString());
+            string path = Environment.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.Process);   // OLTRA will store settings in $HOME so first it needs to be set!
+            if (String.IsNullOrEmpty(path))
+            {
+                ConsoleMessage("Home directory not set!");
+                //                FileChooserDialog fc = new FileChooserDialog("Choose HOME directory", null, FileChooserAction.SelectFolder, "Cancel", ResponseType.Cancel, "OK", ResponseType.Accept);
+                //                if (fc.Run() == (int)ResponseType.Accept)
+                //                {
+                //                    Environment.SetEnvironmentVariable("HOME", fc.Filename, EnvironmentVariableTarget.Machine);
+                //                }
+                //                else
+                //                {
+                //                    ConsoleMessage("Home directory setting cancelled - application will exit!");
+                //                    Application.Quit();
+                //                }
+                //
+                //                fc.Destroy();
+                MessageBox.Show("$HOME environment variable not set!\nContact IT administrator!\n\nApplication will now quit", type: MessageType.Error);
+                Application.Quit();
+            }
+            else
+            {
+                ConsoleMessage("Home directory found: " + path);
+                ent_path.Text = path;
+            }
+            return false;
         }
         public bool CloseApplication()
         {
@@ -87,17 +111,10 @@
         {
             throw new NotImplementedException();
         }
-		private void onProjChoosePathClicked(object sender, EventArgs e)
+		private void OnChoosePathClicked(object sender, EventArgs e)
 		{
-			FileChooserDialog fc = new FileChooserDialog ("Choose Project Path", null, FileChooserAction.SelectFolder, "Cancel",ResponseType.Cancel, "OK",ResponseType.Accept);
-			if (fc.Run () == (int)ResponseType.Accept) 
-            {
-                OLTRAsettings.HomeVar = fc.Filename;
-			} 
-			else
-				Console.WriteLine ("Cancelled Project Path setting");
-			
-            fc.Destroy ();
+            MessageBox.Show("$HOME environment variable not set!\nContact IT administrator!\n\nApplication will now quit", type: MessageType.Error);
+            Application.Quit();
 		}
         #endregion
         #endregion

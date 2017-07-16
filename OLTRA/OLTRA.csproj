@@ -55,6 +55,7 @@
     <Compile Include="ExtractionEngines.cs" />
     <Compile Include="Loggers.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="HelperClassesBJH.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\MainWindow.glade">

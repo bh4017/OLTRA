@@ -627,6 +627,10 @@ ID</property>
                                       <object class="GtkBox" id="box4">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="margin_left">5</property>
+                                        <property name="margin_right">5</property>
+                                        <property name="margin_top">5</property>
+                                        <property name="margin_bottom">3</property>
                                         <property name="orientation">vertical</property>
                                         <child>
                                           <object class="GtkScrolledWindow" id="scrolledwindow2">
@@ -696,6 +700,10 @@ ID</property>
                                           <object class="GtkGrid" id="grid4">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
+                                            <property name="margin_left">5</property>
+                                            <property name="margin_right">5</property>
+                                            <property name="margin_top">5</property>
+                                            <property name="margin_bottom">5</property>
                                             <property name="row_homogeneous">True</property>
                                             <property name="column_homogeneous">True</property>
                                             <child>
@@ -807,6 +815,10 @@ ID</property>
                                               <object class="GtkTreeView" id="trv_listeners">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
+                                                <property name="margin_left">5</property>
+                                                <property name="margin_right">5</property>
+                                                <property name="margin_top">5</property>
+                                                <property name="margin_bottom">5</property>
                                                 <property name="model">lst_listeners</property>
                                                 <child internal-child="selection">
                                                   <object class="GtkTreeSelection" id="treeview-selection6"/>
@@ -857,6 +869,10 @@ ID</property>
                                           <object class="GtkGrid" id="grid2">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
+                                            <property name="margin_left">5</property>
+                                            <property name="margin_right">4</property>
+                                            <property name="margin_top">5</property>
+                                            <property name="margin_bottom">5</property>
                                             <property name="row_homogeneous">True</property>
                                             <property name="column_homogeneous">True</property>
                                             <child>
@@ -1102,7 +1118,9 @@ ID</property>
                                   <object class="GtkLabel" id="label12">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Projects Path:</property>
+                                    <property name="xpad">5</property>
+                                    <property name="ypad">5</property>
+                                    <property name="label" translatable="yes">HOME Path:</property>
                                     <property name="xalign">0</property>
                                   </object>
                                   <packing>
@@ -1111,9 +1129,13 @@ ID</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="ent_proj_path">
+                                  <object class="GtkEntry" id="ent_path">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="margin_left">5</property>
+                                    <property name="margin_right">5</property>
+                                    <property name="margin_top">5</property>
+                                    <property name="margin_bottom">5</property>
                                     <property name="editable">False</property>
                                   </object>
                                   <packing>
@@ -1122,12 +1144,16 @@ ID</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkButton" id="btn_proj_choose_path">
+                                  <object class="GtkButton" id="btn_choose_path">
                                     <property name="label" translatable="yes">Choose</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
-                                    <signal name="clicked" handler="onProjChoosePathClicked" swapped="no"/>
+                                    <property name="margin_left">5</property>
+                                    <property name="margin_right">5</property>
+                                    <property name="margin_top">5</property>
+                                    <property name="margin_bottom">5</property>
+                                    <signal name="clicked" handler="OnChoosePathClicked" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">2</property>
