@@ -59,6 +59,7 @@
             OLTRAsettings = new Settings();
             ConsoleMessage("Running initial startup routine.");
             ConsoleMessage("Detected platform: " + Environment.OSVersion.Platform.ToString());
+            /* FIND HOME DIRECTORY */
             string path = Environment.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.Process);   // OLTRA will store settings in $HOME so first it needs to be set!
             if (String.IsNullOrEmpty(path))
             {
@@ -83,6 +84,8 @@
                 ConsoleMessage("Home directory found: " + path);
                 ent_path.Text = path;
             }
+            /* LOAD EXISTING PROJECTS */
+
             return false;
         }
         public bool CloseApplication()
