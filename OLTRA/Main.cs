@@ -49,21 +49,16 @@
         {
             new MainWindow();
         }
-        public void ConsoleMessage(string message)
-        {
-            DateTime dt = DateTime.Now;
-            Console.WriteLine(String.Format("{0:yyyy-MM-dd  HH:mm:ss} | {1}", dt, message));
-        }
         public bool Startup()
         {
             OLTRAsettings = new Settings();
-            ConsoleMessage("Running initial startup routine.");
-            ConsoleMessage("Detected platform: " + Environment.OSVersion.Platform.ToString());
+            ConsoleMessage.WriteLine("Running initial startup routine.");
+            ConsoleMessage.WriteLine("Detected platform: " + Environment.OSVersion.Platform.ToString());
             /* FIND HOME DIRECTORY */
             string path = Environment.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.Process);   // OLTRA will store settings in $HOME so first it needs to be set!
             if (String.IsNullOrEmpty(path))
             {
-                ConsoleMessage("Home directory not set!");
+                ConsoleMessage.WriteLine("Home directory not set!");
                 //                FileChooserDialog fc = new FileChooserDialog("Choose HOME directory", null, FileChooserAction.SelectFolder, "Cancel", ResponseType.Cancel, "OK", ResponseType.Accept);
                 //                if (fc.Run() == (int)ResponseType.Accept)
                 //                {
@@ -81,7 +76,7 @@
             }
             else
             {
-                ConsoleMessage("Home directory found: " + path);
+                ConsoleMessage.WriteLine("Home directory found: " + path);
                 ent_path.Text = path;
             }
             /* LOAD EXISTING PROJECTS */
@@ -99,12 +94,12 @@
             e.RetVal = CloseApplication();
             Application.Quit();
             string m = "OnDeleteEvent done: " + e.RetVal;
-            ConsoleMessage(m);
-            ConsoleMessage("Bye!");
+            ConsoleMessage.WriteLine(m);
+            ConsoleMessage.WriteLine("Bye!");
         }
         private void onProjNewClicked(object sender, EventArgs e)
         {
-            ConsoleMessage("hello");
+            ConsoleMessage.WriteLine("hello");
         }
         private void onProjStatusClicked(object sender, EventArgs e)
         {

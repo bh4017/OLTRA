@@ -6,6 +6,7 @@
 	using System.Runtime.Serialization.Formatters.Binary;
 	using System.IO;
 	using System.Collections.Generic;
+    using HelperClassesBJH;
 
     #region LISTENER BASE CLASS
     public abstract class ListenerBase
@@ -104,8 +105,7 @@
         }
         public override void Listen()
         {
-            Timer tmr = new Timer();
-            tmr.Interval = 500;
+            MessageBox.Show("Text File Listener\n" + Title + "\n" + Description);
         }
         #region EVENT HANDLERS
         #endregion
