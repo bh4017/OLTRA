@@ -13,7 +13,7 @@
 		[Builder.Object] private Button btn_proj_new;				
 		[Builder.Object] private Button btn_proj_status;			
 		[Builder.Object] private Button btn_proj_delete;
-        [Builder.Object] private Entry ent_path;
+        [Builder.Object] private Entry ent_proj_path;
         
         #endregion
         #region CONSTRUCTORS
@@ -77,9 +77,9 @@
             else
             {
                 ConsoleMessage.WriteLine("Home directory found: " + path);
-                ent_path.Text = path;
             }
-            /* LOAD EXISTING PROJECTS */
+            /* LOAD EXISTING SETTINGS */
+
 
             return false;
         }
@@ -109,10 +109,10 @@
         {
             throw new NotImplementedException();
         }
-		private void OnChoosePathClicked(object sender, EventArgs e)
+		private void OnChooseProjPathClicked(object sender, EventArgs e)
 		{
-            MessageBox.Show("$HOME environment variable not set!\nContact IT administrator!\n\nApplication will now quit", type: MessageType.Error);
-            Application.Quit();
+            Button b = (Button)sender;
+            ConsoleMessage.WriteLine(b.ToString() + " Button clicked");
 		}
         #endregion
         #endregion

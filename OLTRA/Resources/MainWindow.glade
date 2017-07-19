@@ -1120,7 +1120,7 @@ ID</property>
                                     <property name="can_focus">False</property>
                                     <property name="xpad">5</property>
                                     <property name="ypad">5</property>
-                                    <property name="label" translatable="yes">HOME Path:</property>
+                                    <property name="label" translatable="yes">Project Path:</property>
                                     <property name="xalign">0</property>
                                   </object>
                                   <packing>
@@ -1129,7 +1129,7 @@ ID</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="ent_path">
+                                  <object class="GtkEntry" id="ent_proj_path">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="margin_left">5</property>
@@ -1144,7 +1144,7 @@ ID</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkButton" id="btn_choose_path">
+                                  <object class="GtkButton" id="btn_choose_proj_path">
                                     <property name="label" translatable="yes">Choose</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -1153,7 +1153,8 @@ ID</property>
                                     <property name="margin_right">5</property>
                                     <property name="margin_top">5</property>
                                     <property name="margin_bottom">5</property>
-                                    <signal name="clicked" handler="OnChoosePathClicked" swapped="no"/>
+                                    <property name="relief">none</property>
+                                    <signal name="clicked" handler="OnChooseProjPathClicked" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">2</property>
