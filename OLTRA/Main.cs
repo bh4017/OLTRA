@@ -3,6 +3,7 @@
     using Gtk;
     using System;
     using System.Configuration;
+    using System.IO;
     using HelperClassesBJH;
 
     public class MainWindow
@@ -41,6 +42,7 @@
         #endregion
         #region PROPRERTIES
         public Settings OLTRAsettings { get; set;}
+        public string Home { get; set;}
         #endregion
         #region INDEXERS
         #endregion
@@ -77,9 +79,21 @@
             else
             {
                 ConsoleMessage.WriteLine("Home directory found: " + path);
+                Home = path;
             }
             /* LOAD EXISTING SETTINGS */
+            if (File.Exists(Home + ".oltra"))
+            {
+                // Load Settings
+                ConsoleMessage.WriteLine("Loading OLTRA settings");
 
+            }
+            else
+            {
+                // Default Settings
+            }
+
+        
 
             return false;
         }
