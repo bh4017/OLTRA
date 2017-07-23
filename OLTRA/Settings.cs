@@ -3,7 +3,9 @@
     using System;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
+    using System.Xml.Serialization;
 
+    [Serializable]
     public class Settings : ISerializable
     {
         #region CONSTANT FIELDS
@@ -14,7 +16,7 @@
         public Settings() {}
         protected Settings(SerializationInfo si, StreamingContext sc)
         {
-            HomeVar = si.GetString("HomeVar");
+            ProjectDir = si.GetString("ProjectDir");
         }
         #endregion
         #region DESTRUCTORS
@@ -28,14 +30,14 @@
         #region INTERFACES
         #endregion
         #region PROPRERTIES
-        public string HomeVar {get; set;}
+        public string ProjectDir {get; set;}
         #endregion
         #region INDEXERS
         #endregion
         #region METHODS
         public virtual void GetObjectData(SerializationInfo si, StreamingContext sc)
         {
-            si.AddValue("HomeVar", HomeVar);
+            si.AddValue("ProjectDir", ProjectDir);
         }
         #region EVENT HANDLERS
         #endregion

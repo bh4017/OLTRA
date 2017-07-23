@@ -159,6 +159,13 @@ Author: Brian J Hoskins
       <!-- column-name Enabled -->
       <column type="gboolean"/>
     </columns>
+    <data>
+      <row>
+        <col id="0">TEST</col>
+        <col id="1" translatable="yes">TEST!</col>
+        <col id="2">True</col>
+      </row>
+    </data>
   </object>
   <object class="GtkWindow" id="window1">
     <property name="width_request">1024</property>
@@ -657,8 +664,11 @@ ID</property>
                                                     <property name="resizable">True</property>
                                                     <property name="title" translatable="yes">NAME</property>
                                                     <child>
-                                                      <object class="GtkCellRendererText" id="cell_text_name"/>
+                                                      <object class="GtkCellRendererText" id="cell_text_name">
+                                                        <property name="editable">True</property>
+                                                      </object>
                                                       <attributes>
+                                                        <attribute name="sensitive">1</attribute>
                                                         <attribute name="text">0</attribute>
                                                       </attributes>
                                                     </child>
@@ -669,7 +679,9 @@ ID</property>
                                                     <property name="resizable">True</property>
                                                     <property name="title" translatable="yes">DESCRIPTION</property>
                                                     <child>
-                                                      <object class="GtkCellRendererText" id="cell_text_description"/>
+                                                      <object class="GtkCellRendererText" id="cell_text_description">
+                                                        <property name="editable">True</property>
+                                                      </object>
                                                       <attributes>
                                                         <attribute name="text">1</attribute>
                                                       </attributes>
@@ -725,7 +737,7 @@ ID</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
-                                                <signal name="clicked" handler="onProjNewClicked" swapped="no"/>
+                                                <signal name="clicked" handler="OnProjNewClicked" swapped="no"/>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">0</property>
@@ -1258,7 +1270,7 @@ ID</property>
                 <property name="layout_style">start</property>
                 <child>
                   <object class="GtkButton" id="button1">
-                    <property name="label" translatable="yes">button</property>
+                    <property name="label" translatable="yes">hello</property>
                     <property name="height_request">50</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Gtk;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
@@ -8,7 +9,16 @@ namespace OLTRA
 {
 	public static class ProjectLister
 	{
-		public static List<Project> Projects { get; set; }
+        #region PROPERTIES
+        public static List<Project> Projects = new List<Project>();
+        #endregion
+        #region METHODS
+        public static void AddProject(Project p)
+        {
+            Projects.Add(p);
+            //l.Append(
+        }
+        #endregion
 	}
     public class Project
     {
@@ -30,6 +40,9 @@ namespace OLTRA
         #region INTERFACES
         #endregion
         #region PROPRERTIES
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public bool Status { get; set; }
 		public List<ListenerBase> Listeners { get; protected set; }
         #endregion
         #region INDEXERS
