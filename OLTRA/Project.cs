@@ -28,6 +28,12 @@ namespace OLTRA
         #endregion
         #region CONSTRUCTORS
         public Project () {}
+        public Project (string title, string description, bool status)
+        {
+            this.Title = title;
+            this.Description = description;
+            this.Status = status;
+        }
         #endregion
         #region DESTRUCTORS
         #endregion

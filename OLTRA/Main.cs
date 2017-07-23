@@ -21,6 +21,14 @@
         [Builder.Object] private Entry ent_proj_path;
         [Builder.Object] private ListStore lst_listeners;
         [Builder.Object] private ListStore lst_projects;
+        [Builder.Object] private TreeViewColumn col_proj_name;
+        [Builder.Object] private CellRenderer cell_proj_text_name;
+        [Builder.Object] private TreeViewColumn col_proj_description;
+        [Builder.Object] private CellRenderer cell_proj_text_description;
+        [Builder.Object] private TreeViewColumn col_proj_status;
+        [Builder.Object] private CellRenderer cell_proj_toggle_status;
+        [Builder.Object] private ListStore lst_projects2;
+
         #pragma warning restore 169
         #endregion
         #region CONSTRUCTORS
@@ -30,7 +38,7 @@
             Builder Gui = new Builder();
             Gui.AddFromFile("../../Resources/MainWindow.glade");
 			Gui.Autoconnect(this);
-            Gtk.Settings.Default.ThemeName = "Equilux";
+            //Gtk.Settings.Default.ThemeName = "Equilux";
             GLib.Idle.Add(Startup); // run the Startup method next time application is idle.
             Gtk.Application.Run();
         }
@@ -142,7 +150,48 @@
             /* LOAD EXISTING PROJECTS */
             LoadProjects();
 
+            /* DEFINE COLUMN RENDER METHODS */
+            col_proj_name.SetCellDataFunc(cell_proj_text_name, new TreeCellDataFunc(RenderProjectName));
+            col_proj_description.SetCellDataFunc(cell_proj_text_description, new TreeCellDataFunc(RenderProjectDescription));
+            col_proj_status.SetCellDataFunc(cell_proj_toggle_status, new TreeCellDataFunc(RenderProjectStatus));
+
             return false;
+        }
+        private void RenderProjectName(TreeViewColumn col, CellRenderer cell, ITreeModel model, TreeIter iter)
+        {
+            try
+            {
+                Project p = (Project)model.GetValue(iter, 0);
+                (cell as CellRendererText).Text = p.Title;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, MessageType.Error);
+            }
+        }
+        private void RenderProjectDescription(TreeViewColumn col, CellRenderer cell, ITreeModel model, TreeIter iter)
+        {
+            try
+            {
+                Project p = (Project)model.GetValue(iter, 0);
+                (cell as CellRendererText).Text = p.Description;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, MessageType.Error);
+            }
+        }
+        private void RenderProjectStatus(TreeViewColumn col, CellRenderer cell, ITreeModel model, TreeIter iter)
+        {
+            try
+            {
+                Project p = (Project)model.GetValue(iter, 0);
+                (cell as CellRendererToggle).Active = p.Status;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, MessageType.Error);
+            }
         }
         private void LoadProjects()
         {
@@ -196,16 +245,14 @@
         private void OnProjNewClicked(object sender, EventArgs e)
         {
             Project p = new Project();
-            p.Title = "hello";
-            p.Description = "A test";
             ProjectLister.AddProject(p);
-            lst_projects.AppendValues(p.Title, p.Description, p.Status);
+            lst_projects2.AppendValues(p);
         }
-        private void onProjStatusClicked(object sender, EventArgs e)
+        private void OnProjStatusClicked(object sender, EventArgs e)
         {
             throw new NotImplementedException();
         }
-        private void onProjDeleteClicked(object sender, EventArgs e)
+        private void OnProjDeleteClicked(object sender, EventArgs e)
         {
             throw new NotImplementedException();
         }
@@ -214,6 +261,16 @@
             Button b = (Button)sender;
             ConsoleMessage.WriteLine(b.ToString() + " Button clicked");
 		}
+        private void OnProjSaveClicked(object sender, EventArgs e)
+        {
+
+        }
+        private void OnCellTextNameEdited(object sender, EditedArgs e)
+        {
+            TreeIter iter;
+            lst_projects.GetIter(out iter, new TreePath(e.Path));
+
+        }
         #endregion
         #endregion
         #region STRUCTS
