@@ -159,13 +159,6 @@ Author: Brian J Hoskins
       <!-- column-name Enabled -->
       <column type="gboolean"/>
     </columns>
-    <data>
-      <row>
-        <col id="0">TEST</col>
-        <col id="1" translatable="yes">TEST!</col>
-        <col id="2">True</col>
-      </row>
-    </data>
   </object>
   <object class="GtkWindow" id="window1">
     <property name="width_request">1024</property>
@@ -643,6 +636,8 @@ ID</property>
                                           <object class="GtkScrolledWindow" id="scrolledwindow2">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="hscrollbar_policy">always</property>
+                                            <property name="vscrollbar_policy">always</property>
                                             <property name="shadow_type">in</property>
                                             <property name="min_content_width">205</property>
                                             <property name="min_content_height">150</property>
@@ -724,7 +719,7 @@ ID</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
-                                                <signal name="clicked" handler="onProjStatusClicked" swapped="no"/>
+                                                <signal name="clicked" handler="OnProjStatusClicked" swapped="no"/>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
@@ -762,6 +757,7 @@ ID</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
+                                                <signal name="clicked" handler="OnProjDeleteClicked" swapped="no"/>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>

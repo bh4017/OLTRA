@@ -14,14 +14,25 @@
         #region CONSTANT FIELDS
         #endregion
         #region FIELDS
+        #region GLADE FIELDS
         #pragma warning disable 169     // Disable the "object never used" warning.  This warning happens when we are using controls that are generated via the Glade file.
+        #pragma warning disable 649
+        #region BUTTONS
 		[Builder.Object] private Button btn_proj_new;				
 		[Builder.Object] private Button btn_proj_status;			
 		[Builder.Object] private Button btn_proj_delete;
+        #endregion
+        #region ENTRY
         [Builder.Object] private Entry ent_proj_path;
+        #endregion
+        #region LISTSTORES & TREEVIEWS
         [Builder.Object] private ListStore lst_listeners;
         [Builder.Object] private ListStore lst_projects;
+        [Builder.Object] private TreeView trv_projects;
+        #endregion
         #pragma warning restore 169
+        #pragma warning restore 649
+        #endregion
         #endregion
         #region CONSTRUCTORS
         public MainWindow()
@@ -30,7 +41,7 @@
             Builder Gui = new Builder();
             Gui.AddFromFile("../../Resources/MainWindow.glade");
 			Gui.Autoconnect(this);
-            Gtk.Settings.Default.ThemeName = "Equilux";
+            //Gtk.Settings.Default.ThemeName = "Equilux";
             GLib.Idle.Add(Startup); // run the Startup method next time application is idle.
             Gtk.Application.Run();
         }
@@ -201,13 +212,16 @@
             ProjectLister.AddProject(p);
             lst_projects.AppendValues(p.Title, p.Description, p.Status);
         }
-        private void onProjStatusClicked(object sender, EventArgs e)
+        private void OnProjStatusClicked(object sender, EventArgs e)
         {
             throw new NotImplementedException();
         }
-        private void onProjDeleteClicked(object sender, EventArgs e)
+        private void OnProjDeleteClicked(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            TreeSelection selection = trv_projects.Selection;
+            TreeIter iter;       
+            selection.GetSelected (out iter);
+            lst_projects.Remove(ref iter);
         }
 		private void OnChooseProjPathClicked(object sender, EventArgs e)
 		{
