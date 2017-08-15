@@ -33,7 +33,7 @@
                     Console.ResetColor();
                     break;
             }
-            Console.WriteLine(String.Format("{0:yyyy-MM-dd  HH:mm:ss} | {1}", dt, message));
+            Console.WriteLine(String.Format("{0:yyyy-MM-dd  HH:mm:ss.ff} | {1}", dt, message));
             Console.ResetColor();
         }
     }

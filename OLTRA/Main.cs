@@ -29,6 +29,12 @@
         [Builder.Object] private ListStore lst_listeners;
         [Builder.Object] private ListStore lst_projects;
         [Builder.Object] private TreeView trv_projects;
+        [Builder.Object] private TreeViewColumn col_ProjName;
+        [Builder.Object] private CellRendererText cell_text_name;
+        [Builder.Object] private CellRendererText cell_text_description;
+        [Builder.Object] private CellRendererToggle cell_toggle_status;
+        [Builder.Object] private TreeViewColumn col_ProjDescription;
+        [Builder.Object] private TreeViewColumn col_ProjStatus;
         #endregion
         #pragma warning restore 169
         #pragma warning restore 649
@@ -69,7 +75,12 @@
         {
             new MainWindow();
         }
-        public bool Startup()
+        public bool CloseApplication()
+        {
+            Application.Quit();
+            return true;
+        }
+        private bool Startup()
         {
             /* INSTANTIATE SETTINGS AND DETECT PLATFORM */
             OLTRAsettings = new Settings();
@@ -150,6 +161,10 @@
                 }
             }
 
+
+
+
+
             /* LOAD EXISTING PROJECTS */
             LoadProjects();
 
@@ -190,10 +205,32 @@
                 ConsoleMessage.WriteLine("No projects found!");
             }
         }
-        public bool CloseApplication()
+        public void RenderProjectName(TreeViewColumn col, CellRenderer cell, ITreeModel model, TreeIter iter)
         {
-            Application.Quit();
-            return true;
+            Project p = (Project)model.GetValue(iter, 0);
+            (cell as CellRendererText).Text = p.Title;
+        }
+        private void RenderProjectDescription(TreeViewColumn col, CellRenderer cell, ITreeModel model, TreeIter iter)
+        {
+            Project p = (Project)model.GetValue(iter, 0);
+            (cell as CellRendererText).Text = p.Description;
+        }
+        private void RenderProjectStatus(TreeViewColumn col, CellRenderer cell, ITreeModel model, TreeIter iter)
+        {
+            Project p = (Project)model.GetValue(iter, 0);
+            (cell as CellRendererToggle).Active = p.Status;
+        }
+        private void SetupCellDataFunctions()
+        {
+            /* SETUP SETCELLDATAFUNCTIONS */
+            ConsoleMessage.WriteLine("Setting up 'SetCellDataFunctions:'");
+            ConsoleMessage.WriteLine("\t[RenderProjectName]");
+            TreeCellDataFunc test = new TreeCellDataFunc(RenderProjectName);
+            col_ProjName.SetCellDataFunc(cell_text_name, new TreeCellDataFunc(RenderProjectName));
+            ConsoleMessage.WriteLine("\t[RenderProjectDescription]");
+            col_ProjDescription.SetCellDataFunc(cell_text_description, new TreeCellDataFunc(RenderProjectDescription));
+            ConsoleMessage.WriteLine("\t[RenderProjectStatus]");
+            col_ProjStatus.SetCellDataFunc(cell_toggle_status, new TreeCellDataFunc(RenderProjectStatus));
         }
         #region EVENT HANDLERS
         private void OnDeleteEvent(object sender, DeleteEventArgs e)
@@ -207,14 +244,14 @@
         private void OnProjNewClicked(object sender, EventArgs e)
         {
             Project p = new Project();
-            p.Title = "hello";
-            p.Description = "A test";
+            p.Title = "Enter a title";
+            p.Description = "Enter a description";
             ProjectLister.AddProject(p);
-            lst_projects.AppendValues(p.Title, p.Description, p.Status);
+            lst_projects.AppendValues(p);
         }
         private void OnProjStatusClicked(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            SetupCellDataFunctions();
         }
         private void OnProjDeleteClicked(object sender, EventArgs e)
         {

@@ -152,12 +152,8 @@ Author: Brian J Hoskins
   </object>
   <object class="GtkListStore" id="lst_projects">
     <columns>
-      <!-- column-name Name -->
-      <column type="gchararray"/>
-      <!-- column-name Description -->
-      <column type="gchararray"/>
-      <!-- column-name Enabled -->
-      <column type="gboolean"/>
+      <!-- column-name Project -->
+      <column type="Project"/>
     </columns>
   </object>
   <object class="GtkWindow" id="window1">
@@ -664,7 +660,6 @@ ID</property>
                                                       </object>
                                                       <attributes>
                                                         <attribute name="sensitive">1</attribute>
-                                                        <attribute name="text">0</attribute>
                                                       </attributes>
                                                     </child>
                                                   </object>
@@ -677,9 +672,6 @@ ID</property>
                                                       <object class="GtkCellRendererText" id="cell_text_description">
                                                         <property name="editable">True</property>
                                                       </object>
-                                                      <attributes>
-                                                        <attribute name="text">1</attribute>
-                                                      </attributes>
                                                     </child>
                                                   </object>
                                                 </child>
@@ -688,9 +680,6 @@ ID</property>
                                                     <property name="title" translatable="yes">STATUS</property>
                                                     <child>
                                                       <object class="GtkCellRendererToggle" id="cell_toggle_status"/>
-                                                      <attributes>
-                                                        <attribute name="active">2</attribute>
-                                                      </attributes>
                                                     </child>
                                                   </object>
                                                 </child>
