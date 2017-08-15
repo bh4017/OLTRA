@@ -7,19 +7,6 @@ using System.Collections.Generic;
 
 namespace OLTRA
 {
-	public static class ProjectLister
-	{
-        #region PROPERTIES
-        public static List<Project> Projects = new List<Project>();
-        #endregion
-        #region METHODS
-        public static void AddProject(Project p)
-        {
-            Projects.Add(p);
-            //l.Append(
-        }
-        #endregion
-	}
     public class Project
     {
         #region CONSTANT FIELDS

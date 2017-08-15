@@ -4,6 +4,8 @@
     using System;
     using System.Configuration;
     using System.IO;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Text.RegularExpressions;
@@ -29,12 +31,12 @@
         [Builder.Object] private ListStore lst_listeners;
         [Builder.Object] private ListStore lst_projects;
         [Builder.Object] private TreeView trv_projects;
-        [Builder.Object] private TreeViewColumn col_ProjName;
-        [Builder.Object] private CellRendererText cell_text_name;
-        [Builder.Object] private CellRendererText cell_text_description;
-        [Builder.Object] private CellRendererToggle cell_toggle_status;
-        [Builder.Object] private TreeViewColumn col_ProjDescription;
-        [Builder.Object] private TreeViewColumn col_ProjStatus;
+        [Builder.Object] private CellRendererText cell_text_proj_name;
+        [Builder.Object] private CellRendererText cell_text_proj_description;
+        [Builder.Object] private CellRendererToggle cell_toggle_proj_status;
+        [Builder.Object] private TreeViewColumn col_proj_description;
+        [Builder.Object] private TreeViewColumn col_proj_status;
+        [Builder.Object] private TreeViewColumn col_proj_name;
         #endregion
         #pragma warning restore 169
         #pragma warning restore 649
@@ -56,6 +58,7 @@
         #endregion
         #region DELEGATES
         public delegate bool InitialStartupCallBack();
+        public delegate void Test(CellRenderer cr);
         #endregion
         #region EVENTS
         #endregion
@@ -160,11 +163,11 @@
                     Application.Quit();
                 }
             }
-
-
-
-
-
+            /* SETUP PROJECT TREEVIEW & ASSOCIATED LISTSTORE */
+            lst_projects = new ListStore(typeof(Project));
+            trv_projects.Model = lst_projects;
+            /* SETUP CELL DATA FUNCTIONS */
+            SetupCellDataFunctions();
             /* LOAD EXISTING PROJECTS */
             LoadProjects();
 
@@ -189,7 +192,7 @@
                             using (FileStream fs = File.OpenRead(projects[i]))
                             {
                                 Project p = (Project)bf.Deserialize(fs);
-                                ProjectLister.Projects.Add(p);
+                                lst_projects.AppendValues(p);
                                 ConsoleMessage.WriteLine("Added Project " + p.Title);
                             }
                         }
@@ -221,25 +224,16 @@
             (cell as CellRendererToggle).Active = p.Status;
         }
         private void SetupCellDataFunctions()
-        { 
-            col_ProjName.SetCellDataFunc(cell_text_name, new TreeCellDataFunc(RenderProjectName));
-            col_ProjDescription.SetCellDataFunc(cell_text_description, new TreeCellDataFunc(RenderProjectDescription));
-            col_ProjStatus.SetCellDataFunc(cell_toggle_status, new TreeCellDataFunc(RenderProjectStatus));
+        {
+            /* SETUP SETCELLDATAFUNCTIONS */
+            ConsoleMessage.WriteLine("Setting up 'SetCellDataFunctions:");
+            ConsoleMessage.WriteLine("\t[RenderProjectName]");
+            col_proj_name.SetCellDataFunc(cell_text_proj_name, new TreeCellDataFunc(RenderProjectName));
+            ConsoleMessage.WriteLine("\t[RenderProjectDescription]");
+            col_proj_description.SetCellDataFunc(cell_text_proj_description, new TreeCellDataFunc(RenderProjectDescription));
+            ConsoleMessage.WriteLine("\t[RenderProjectStatus]");
+            col_proj_status.SetCellDataFunc(cell_toggle_proj_status, new TreeCellDataFunc(RenderProjectStatus));
         }
-
-//        private void SetupCellDataFunctions()
-//        {
-//            /* SETUP SETCELLDATAFUNCTIONS */
-//            ConsoleMessage.WriteLine("Setting up 'SetCellDataFunctions:'");
-//            ConsoleMessage.WriteLine("\t[RenderProjectName]");
-//            TreeCellDataFunc test = new TreeCellDataFunc(RenderProjectName);
-//            col_ProjName.SetCellDataFunc(cell_text_name, new TreeCellDataFunc(RenderProjectName));
-//            ConsoleMessage.WriteLine("\t[RenderProjectDescription]");
-//            col_ProjDescription.SetCellDataFunc(cell_text_description, new TreeCellDataFunc(RenderProjectDescription));
-//            ConsoleMessage.WriteLine("\t[RenderProjectStatus]");
-//            col_ProjStatus.SetCellDataFunc(cell_toggle_status, new TreeCellDataFunc(RenderProjectStatus));
-//        }
-   
         #region EVENT HANDLERS
         private void OnDeleteEvent(object sender, DeleteEventArgs e)
         {           
@@ -254,7 +248,6 @@
             Project p = new Project();
             p.Title = "Enter a title";
             p.Description = "Enter a description";
-            ProjectLister.AddProject(p);
             lst_projects.AppendValues(p);
         }
         private void OnProjStatusClicked(object sender, EventArgs e)
@@ -267,6 +260,31 @@
             TreeIter iter;       
             selection.GetSelected (out iter);
             lst_projects.Remove(ref iter);
+        }
+        private void OnProjSaveClicked(object sender, EventArgs e)
+        {
+
+        }
+        private void On_cell_text_proj_name_edited(object sender, EditedArgs e)
+        {
+            TreeIter iter;
+            lst_projects.GetIter(out iter, new TreePath(e.Path));
+            Project p = (Project)lst_projects.GetValue(iter, 0);
+            p.Title = e.NewText;
+        }
+        private void On_cell_text_proj_description_edited(object sender, EditedArgs e)
+        {
+            TreeIter iter;
+            lst_projects.GetIter(out iter, new TreePath(e.Path));
+            Project p = (Project)lst_projects.GetValue(iter, 0);
+            p.Description = e.NewText;
+        }
+        private void On_cell_toggle_proj_status_toggled(object sender, ToggledArgs e)
+        {
+            TreeIter iter;
+            lst_projects.GetIter(out iter, new TreePath(e.Path));
+            Project p = (Project)lst_projects.GetValue(iter, 0);
+            p.Status = !(p.Status);
         }
 		private void OnChooseProjPathClicked(object sender, EventArgs e)
 		{

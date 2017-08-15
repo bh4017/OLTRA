@@ -150,12 +150,7 @@ Author: Brian J Hoskins
       <column type="gchararray"/>
     </columns>
   </object>
-  <object class="GtkListStore" id="lst_projects">
-    <columns>
-      <!-- column-name Project -->
-      <column type="Project"/>
-    </columns>
-  </object>
+  <object class="GtkListStore" id="lst_projects"/>
   <object class="GtkWindow" id="window1">
     <property name="width_request">1024</property>
     <property name="height_request">700</property>
@@ -647,6 +642,7 @@ ID</property>
                                                 <property name="margin_bottom">5</property>
                                                 <property name="model">lst_projects</property>
                                                 <property name="enable_grid_lines">both</property>
+                                                <property name="enable_tree_lines">True</property>
                                                 <child internal-child="selection">
                                                   <object class="GtkTreeSelection" id="treeview-selection4"/>
                                                 </child>
@@ -655,8 +651,9 @@ ID</property>
                                                     <property name="resizable">True</property>
                                                     <property name="title" translatable="yes">NAME</property>
                                                     <child>
-                                                      <object class="GtkCellRendererText" id="cell_text_name">
+                                                      <object class="GtkCellRendererText" id="cell_text_proj_name">
                                                         <property name="editable">True</property>
+                                                        <signal name="edited" handler="On_cell_text_proj_name_edited" swapped="no"/>
                                                       </object>
                                                       <attributes>
                                                         <attribute name="sensitive">1</attribute>
@@ -669,8 +666,9 @@ ID</property>
                                                     <property name="resizable">True</property>
                                                     <property name="title" translatable="yes">DESCRIPTION</property>
                                                     <child>
-                                                      <object class="GtkCellRendererText" id="cell_text_description">
+                                                      <object class="GtkCellRendererText" id="cell_text_proj_description">
                                                         <property name="editable">True</property>
+                                                        <signal name="edited" handler="On_cell_text_proj_description_edited" swapped="no"/>
                                                       </object>
                                                     </child>
                                                   </object>
@@ -679,7 +677,9 @@ ID</property>
                                                   <object class="GtkTreeViewColumn" id="col_proj_status">
                                                     <property name="title" translatable="yes">STATUS</property>
                                                     <child>
-                                                      <object class="GtkCellRendererToggle" id="cell_toggle_status"/>
+                                                      <object class="GtkCellRendererToggle" id="cell_toggle_proj_status">
+                                                        <signal name="toggled" handler="On_cell_toggle_proj_status_toggled" swapped="no"/>
+                                                      </object>
                                                     </child>
                                                   </object>
                                                 </child>
@@ -734,6 +734,7 @@ ID</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
+                                                <signal name="clicked" handler="OnProjSaveClicked" swapped="no"/>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">0</property>
