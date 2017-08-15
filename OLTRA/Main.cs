@@ -205,7 +205,7 @@
                 ConsoleMessage.WriteLine("No projects found!");
             }
         }
-        public void RenderProjectName(TreeViewColumn col, CellRenderer cell, ITreeModel model, TreeIter iter)
+        private void RenderProjectName(TreeViewColumn col, CellRenderer cell, ITreeModel model, TreeIter iter)
         {
             Project p = (Project)model.GetValue(iter, 0);
             (cell as CellRendererText).Text = p.Title;
@@ -221,17 +221,25 @@
             (cell as CellRendererToggle).Active = p.Status;
         }
         private void SetupCellDataFunctions()
-        {
-            /* SETUP SETCELLDATAFUNCTIONS */
-            ConsoleMessage.WriteLine("Setting up 'SetCellDataFunctions:'");
-            ConsoleMessage.WriteLine("\t[RenderProjectName]");
-            TreeCellDataFunc test = new TreeCellDataFunc(RenderProjectName);
+        { 
             col_ProjName.SetCellDataFunc(cell_text_name, new TreeCellDataFunc(RenderProjectName));
-            ConsoleMessage.WriteLine("\t[RenderProjectDescription]");
             col_ProjDescription.SetCellDataFunc(cell_text_description, new TreeCellDataFunc(RenderProjectDescription));
-            ConsoleMessage.WriteLine("\t[RenderProjectStatus]");
             col_ProjStatus.SetCellDataFunc(cell_toggle_status, new TreeCellDataFunc(RenderProjectStatus));
         }
+
+//        private void SetupCellDataFunctions()
+//        {
+//            /* SETUP SETCELLDATAFUNCTIONS */
+//            ConsoleMessage.WriteLine("Setting up 'SetCellDataFunctions:'");
+//            ConsoleMessage.WriteLine("\t[RenderProjectName]");
+//            TreeCellDataFunc test = new TreeCellDataFunc(RenderProjectName);
+//            col_ProjName.SetCellDataFunc(cell_text_name, new TreeCellDataFunc(RenderProjectName));
+//            ConsoleMessage.WriteLine("\t[RenderProjectDescription]");
+//            col_ProjDescription.SetCellDataFunc(cell_text_description, new TreeCellDataFunc(RenderProjectDescription));
+//            ConsoleMessage.WriteLine("\t[RenderProjectStatus]");
+//            col_ProjStatus.SetCellDataFunc(cell_toggle_status, new TreeCellDataFunc(RenderProjectStatus));
+//        }
+   
         #region EVENT HANDLERS
         private void OnDeleteEvent(object sender, DeleteEventArgs e)
         {           
