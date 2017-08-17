@@ -7,7 +7,8 @@ using System.Collections.Generic;
 
 namespace OLTRA
 {
-    public class Project
+    [Serializable]
+    public class Project:ISerializable
     {
         #region CONSTANT FIELDS
         #endregion
@@ -15,6 +16,12 @@ namespace OLTRA
         #endregion
         #region CONSTRUCTORS
         public Project () {}
+        public Project(SerializationInfo si, StreamingContext sc)
+        {
+            Title = si.GetString("Title");
+            Description = si.GetString("Description");
+            Status = si.GetBoolean("Status");
+        }
         #endregion
         #region DESTRUCTORS
         #endregion
@@ -35,7 +42,12 @@ namespace OLTRA
         #region INDEXERS
         #endregion
         #region METHODS
-       
+        public virtual void GetObjectData(SerializationInfo si, StreamingContext sc)
+        {
+            si.AddValue("Title", Title);
+            si.AddValue("Description", Description);
+            si.AddValue("Status", Status);
+        }
         #region EVENT HANDLERS
         #endregion
         #endregion

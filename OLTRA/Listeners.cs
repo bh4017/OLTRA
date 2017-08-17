@@ -6,6 +6,7 @@
 	using System.Runtime.Serialization.Formatters.Binary;
 	using System.IO;
 	using System.Collections.Generic;
+    using System.Threading;
     using HelperClassesBJH;
 
     #region LISTENER BASE CLASS
@@ -58,14 +59,14 @@
         #region CONSTANT FIELDS
         #endregion
         #region FIELDS
-        private Timer tmr;
+        //private Timer tmr;
         #endregion
         #region CONSTRUCTORS
         public FileListener() {}
         public FileListener(string filepath, int listeninterval = 500, string title = null, string description = null, bool enabled = true)
             :base(title, description, enabled)
         {
-            tmr = new Timer();
+            //tmr = new Timer();
             FilePath = filepath;
             ListenInterval = listeninterval;
         }
@@ -105,7 +106,11 @@
         }
         public override void Listen()
         {
-            MessageBox.Show("Text File Listener\n" + Title + "\n" + Description);
+            while (true)
+            {
+                ConsoleMessage.WriteLine("Text File Listener\n" + Title + "\n" + Description);
+                Thread.Sleep(500);
+            }
         }
         #region EVENT HANDLERS
         #endregion

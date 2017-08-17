@@ -1,10 +1,15 @@
-GtkWindow
+/* Theme treeview rows */
+
+GtkTreeView row 
 {
-    background-color: #0000ff;
+  border-width: 50;
+  border-radius: 0;
 }
 
-GtkButton
+GtkTreeView row:selected:focused 
 {
-    color: #ff0000;
-    background: #00ff00;
+  background-image: -gtk-gradient (linear,
+                                   left top, left bottom,
+                                   from (@selected_bg_color),
+                                   to (shade (@selected_bg_color, 1.4)));
 }

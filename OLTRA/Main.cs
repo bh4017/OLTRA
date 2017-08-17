@@ -38,9 +38,20 @@
         [Builder.Object] private TreeViewColumn col_proj_status;
         [Builder.Object] private TreeViewColumn col_proj_name;
         #endregion
+        #region DIALOGUES
+        /* ADD LSNR DIALOG */
+        [Builder.Object] private Dialog AddLsnrDialog;
+        [Builder.Object] private Button btn_add_lsnr;
+        [Builder.Object] private Button btn_add_lsnr_cancel;
+        [Builder.Object] private ComboBox cmb_lsnr_types;
+        [Builder.Object] private Entry ent_lsnr_title;
+        [Builder.Object] private Entry ent_lsnr_description;
+        [Builder.Object] private ToggleButton tgl_lsnr_status;
+        #endregion
         #pragma warning restore 169
         #pragma warning restore 649
         #endregion
+
         #endregion
         #region CONSTRUCTORS
         public MainWindow()
@@ -49,7 +60,12 @@
             Builder Gui = new Builder();
             Gui.AddFromFile("../../Resources/MainWindow.glade");
 			Gui.Autoconnect(this);
-            //Gtk.Settings.Default.ThemeName = "Equilux";
+            //Gtk.Settings.Default.ThemeName = "VimixDark";
+            Gtk.CssProvider css_provider = new Gtk.CssProvider();
+            css_provider.LoadFromPath("../../Resources/OLTRAtheme/gtk.css");
+          
+            //css_provider.LoadFromPath("../../Resources/styles.css");
+            Gtk.StyleContext.AddProviderForScreen(Gdk.Screen.Default, css_provider, 800);
             GLib.Idle.Add(Startup); // run the Startup method next time application is idle.
             Gtk.Application.Run();
         }
@@ -82,6 +98,18 @@
         {
             Application.Quit();
             return true;
+        }
+        private void ApplyCss (Widget widget, CssProvider provider, uint priority)
+        {
+            widget.StyleContext.AddProvider (provider, priority);
+            var container = widget as Container;
+            if (container != null) 
+            {
+                foreach (var child in container.Children) 
+                {
+                    ApplyCss (child, provider, priority);
+                }
+            }
         }
         private bool Startup()
         {
@@ -166,12 +194,17 @@
             /* SETUP PROJECT TREEVIEW & ASSOCIATED LISTSTORE */
             lst_projects = new ListStore(typeof(Project));
             trv_projects.Model = lst_projects;
+
             /* SETUP CELL DATA FUNCTIONS */
             SetupCellDataFunctions();
             /* LOAD EXISTING PROJECTS */
             LoadProjects();
 
             return false;
+        }
+        private void SaveProject()
+        {
+
         }
         private void LoadProjects()
         {
@@ -259,11 +292,54 @@
             TreeSelection selection = trv_projects.Selection;
             TreeIter iter;       
             selection.GetSelected (out iter);
+            Project p = (Project)lst_projects.GetValue(iter, 0);
+            if (p == null)
+            {
+                MessageBox.Show("Please select the project you want to delete first!", MessageType.Error);
+                return;
+            }
             lst_projects.Remove(ref iter);
+            if(File.Exists(OLTRAsettings.ProjectDir + "/" + p.Title + ".olp"))
+                File.Delete(OLTRAsettings.ProjectDir + "/" + p.Title + ".olp");
         }
         private void OnProjSaveClicked(object sender, EventArgs e)
         {
+            TreeSelection selection = trv_projects.Selection;
+            TreeIter iter;       
+            selection.GetSelected (out iter);
+            Project p = (Project)lst_projects.GetValue(iter, 0);
+            if (p == null)
+            {
+                MessageBox.Show("Please select the project you want to save first!", MessageType.Error);
+                return;
+            }
+            IFormatter bf = new BinaryFormatter();
+            try
+            {
+                using (FileStream fs = File.Create(OLTRAsettings.ProjectDir + "/" + p.Title + ".olp"))
+                    bf.Serialize(fs, p);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
+        }
+        private void On_btn_lsnr_add_clicked(object sender, EventArgs e)
+        {
+            TreeSelection projSelection = trv_projects.Selection;
+            TreeIter iter;
+            projSelection.GetSelected(out iter);
+            Project p = (Project)lst_projects.GetValue(iter, 0);
+            if (p == null)
+            {
+                MessageBox.Show("Please select the project you want to add a listener to first!", MessageType.Error);
+                return;
+            }
+            ent_lsnr_title.Text = "Add Title";
+            ent_lsnr_description.Text = "Add Description";
+            tgl_lsnr_status.Active = true;
+            AddLsnrDialog.Show();
         }
         private void On_cell_text_proj_name_edited(object sender, EditedArgs e)
         {
