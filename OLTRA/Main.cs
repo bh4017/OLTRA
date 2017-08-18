@@ -342,15 +342,19 @@
             tgl_lsnr_status.Active = true;
             /* Setup Combobox */
             ListStore myLsnrTypes = new ListStore(typeof (ListenerBase));
+            // Get all the sub classes of ListenerBase.
             var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.IsSubclassOf(typeof(ListenerBase)));
+            // Add an instance of each subclass of ListenerBase to a ListStore.
             foreach (Type t in types)
             {
                 myLsnrTypes.AppendValues(Activator.CreateInstance(t));
             }
+            // Set our ListStore as the model for the combobox.
             cmb_lsnr_types.Model = myLsnrTypes;
             CellRenderer cr = new CellRendererText();
+
             cmb_lsnr_types.PackStart(cr, true);
-            cmb_lsnr_types.AddAttribute(cr, "text", 0);
+            cmb_lsnr_types.AddAttribute(cr, "text", 5);
             //set first item as active
             cmb_lsnr_types.Active = 0;
             AddLsnrDialog.Show();
