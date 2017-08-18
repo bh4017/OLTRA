@@ -30,6 +30,8 @@ Author: Brian J Hoskins
   <!-- interface-authors Brian J Hoskins -->
   <object class="GtkDialog" id="AddLsnrDialog">
     <property name="can_focus">False</property>
+    <property name="title" translatable="yes">OLTRA - Add Listener</property>
+    <property name="window_position">mouse</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox2">
@@ -46,6 +48,10 @@ Author: Brian J Hoskins
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
                 <property name="xalign">0.55000001192092896</property>
               </object>
               <packing>
@@ -60,6 +66,10 @@ Author: Brian J Hoskins
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -83,6 +93,8 @@ Author: Brian J Hoskins
               <object class="GtkLabel" id="label16">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
                 <property name="ypad">4</property>
                 <property name="label" translatable="yes">Add Listener Dialogue</property>
                 <property name="ellipsize">end</property>
@@ -101,6 +113,10 @@ Author: Brian J Hoskins
                   <object class="GtkLabel" id="label17">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="margin_left">5</property>
+                    <property name="margin_right">5</property>
+                    <property name="margin_top">5</property>
+                    <property name="margin_bottom">5</property>
                     <property name="label" translatable="yes">Type: </property>
                     <property name="xalign">0</property>
                   </object>
@@ -113,6 +129,10 @@ Author: Brian J Hoskins
                   <object class="GtkLabel" id="label18">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="margin_left">5</property>
+                    <property name="margin_right">5</property>
+                    <property name="margin_top">5</property>
+                    <property name="margin_bottom">5</property>
                     <property name="label" translatable="yes">Title: </property>
                     <property name="xalign">0</property>
                   </object>
@@ -125,6 +145,10 @@ Author: Brian J Hoskins
                   <object class="GtkLabel" id="label19">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="margin_left">5</property>
+                    <property name="margin_right">5</property>
+                    <property name="margin_top">5</property>
+                    <property name="margin_bottom">5</property>
                     <property name="label" translatable="yes">Description: </property>
                     <property name="xalign">0</property>
                   </object>
@@ -137,6 +161,10 @@ Author: Brian J Hoskins
                   <object class="GtkLabel" id="label20">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="margin_left">5</property>
+                    <property name="margin_right">5</property>
+                    <property name="margin_top">5</property>
+                    <property name="margin_bottom">5</property>
                     <property name="label" translatable="yes">Enabled: </property>
                     <property name="xalign">0</property>
                   </object>
@@ -149,6 +177,11 @@ Author: Brian J Hoskins
                   <object class="GtkEntry" id="ent_lsnr_title">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="margin_left">5</property>
+                    <property name="margin_right">5</property>
+                    <property name="margin_top">5</property>
+                    <property name="margin_bottom">5</property>
+                    <property name="placeholder_text" translatable="yes">Enter title</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -159,6 +192,11 @@ Author: Brian J Hoskins
                   <object class="GtkEntry" id="ent_lsnr_description">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="margin_left">5</property>
+                    <property name="margin_right">5</property>
+                    <property name="margin_top">5</property>
+                    <property name="margin_bottom">5</property>
+                    <property name="placeholder_text" translatable="yes">Enter description</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -171,6 +209,10 @@ Author: Brian J Hoskins
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="margin_left">5</property>
+                    <property name="margin_right">5</property>
+                    <property name="margin_top">5</property>
+                    <property name="margin_bottom">5</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -181,6 +223,10 @@ Author: Brian J Hoskins
                   <object class="GtkComboBox" id="cmb_lsnr_types">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="margin_left">5</property>
+                    <property name="margin_right">5</property>
+                    <property name="margin_top">5</property>
+                    <property name="margin_bottom">5</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -328,10 +374,12 @@ Author: Brian J Hoskins
   </object>
   <object class="GtkListStore" id="lst_projects"/>
   <object class="GtkWindow" id="window1">
-    <property name="width_request">1024</property>
-    <property name="height_request">700</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <property name="title" translatable="yes">OLTRA</property>
+    <property name="window_position">center</property>
+    <property name="default_width">-1</property>
+    <property name="default_height">-1</property>
     <signal name="delete-event" handler="OnDeleteEvent" swapped="no"/>
     <child>
       <object class="GtkBox" id="box1">

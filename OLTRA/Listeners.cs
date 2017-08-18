@@ -121,6 +121,73 @@
         #endregion
     }             
 	#endregion
+    #region FILE LISTENER CLASS
+    public class NetListener : ListenerBase, ISerializable
+    {
+        #region CONSTANT FIELDS
+        #endregion
+        #region FIELDS
+        //private Timer tmr;
+        #endregion
+        #region CONSTRUCTORS
+        public NetListener() {}
+        public NetListener(string ip, int port, string title = "hello", string description = null, bool enabled = true)
+            :base(title, description, enabled)
+        {
+            IP = ip;
+            Port = port;
+        }
+        protected NetListener(SerializationInfo si, StreamingContext sc)
+        {
+            Title = si.GetString("Title");
+            Description = si.GetString("Description");
+            Enabled = si.GetBoolean("Enabled");
+            IP = si.GetString("IP");
+            Port = si.GetInt32("Port");
+        }
+        #endregion
+        #region DESTRUCTORS
+        #endregion
+        #region DELEGATES
+        #endregion
+        #region EVENTS
+        #endregion
+        #region ENUMS
+        #endregion
+        #region INTERFACES
+        #endregion
+        #region PROPRERTIES
+        public string IP { get; protected set; }
+        public int Port { get; set; }
+        #endregion
+        #region INDEXERS
+        #endregion
+        #region METHODS
+        public virtual void GetObjectData(SerializationInfo si, StreamingContext sc)
+        {
+            si.AddValue("Title", Title);
+            si.AddValue("Description", Description);
+            si.AddValue("Enabled", Enabled);
+            si.AddValue("IP", IP);
+            si.AddValue("Port", Port);
+        }
+        public override void Listen()
+        {
+            while (true)
+            {
+                ConsoleMessage.WriteLine("Net Listener\n" + Title + "\n" + Description);
+                Thread.Sleep(500);
+            }
+        }
+        #region EVENT HANDLERS
+        #endregion
+        #endregion
+        #region STRUCTS
+        #endregion
+        #region CLASSES
+        #endregion
+    }             
+    #endregion
 
 }
 

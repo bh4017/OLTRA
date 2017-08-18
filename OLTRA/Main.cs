@@ -9,6 +9,8 @@
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Text.RegularExpressions;
+    using System.Reflection.Context;
+    using System.Linq;
     using HelperClassesBJH;
 
     public class MainWindow
@@ -28,6 +30,7 @@
         [Builder.Object] private Entry ent_proj_path;
         #endregion
         #region LISTSTORES & TREEVIEWS
+        [Builder.Object] private Window window1;
         [Builder.Object] private ListStore lst_listeners;
         [Builder.Object] private ListStore lst_projects;
         [Builder.Object] private TreeView trv_projects;
@@ -63,8 +66,6 @@
             //Gtk.Settings.Default.ThemeName = "VimixDark";
             Gtk.CssProvider css_provider = new Gtk.CssProvider();
             css_provider.LoadFromPath("../../Resources/OLTRAtheme/gtk.css");
-          
-            //css_provider.LoadFromPath("../../Resources/styles.css");
             Gtk.StyleContext.AddProviderForScreen(Gdk.Screen.Default, css_provider, 800);
             GLib.Idle.Add(Startup); // run the Startup method next time application is idle.
             Gtk.Application.Run();
@@ -113,10 +114,12 @@
         }
         private bool Startup()
         {
-            /* INSTANTIATE SETTINGS AND DETECT PLATFORM */
-            OLTRAsettings = new Settings();
             ConsoleMessage.WriteLine("Running initial startup routine.");
             ConsoleMessage.WriteLine("Detected platform: " + Environment.OSVersion.Platform.ToString());
+            ConsoleMessage.WriteLine("Maximizing window size...");
+            window1.Maximize();
+            /* INSTANTIATE SETTINGS AND DETECT PLATFORM */
+            OLTRAsettings = new Settings();
             /* FIND HOME DIRECTORY */
             string path = Environment.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.Process);   // OLTRA will store settings in $HOME so first it needs to be set!
             if (String.IsNullOrEmpty(path))
@@ -336,9 +339,20 @@
                 MessageBox.Show("Please select the project you want to add a listener to first!", MessageType.Error);
                 return;
             }
-            ent_lsnr_title.Text = "Add Title";
-            ent_lsnr_description.Text = "Add Description";
             tgl_lsnr_status.Active = true;
+            /* Setup Combobox */
+            ListStore myLsnrTypes = new ListStore(typeof (ListenerBase));
+            var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.IsSubclassOf(typeof(ListenerBase)));
+            foreach (Type t in types)
+            {
+                myLsnrTypes.AppendValues(Activator.CreateInstance(t));
+            }
+            cmb_lsnr_types.Model = myLsnrTypes;
+            CellRenderer cr = new CellRendererText();
+            cmb_lsnr_types.PackStart(cr, true);
+            cmb_lsnr_types.AddAttribute(cr, "text", 0);
+            //set first item as active
+            cmb_lsnr_types.Active = 0;
             AddLsnrDialog.Show();
         }
         private void On_cell_text_proj_name_edited(object sender, EditedArgs e)
