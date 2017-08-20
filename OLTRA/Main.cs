@@ -21,6 +21,9 @@
         #region GLADE FIELDS
         #pragma warning disable 169     // Disable the "object never used" warning.  This warning happens when we are using controls that are generated via the Glade file.
         #pragma warning disable 649
+        #region WINDOWS
+        [Builder.Object] private Window window1;
+        #endregion
         #region BUTTONS
 		[Builder.Object] private Button btn_proj_new;				
 		[Builder.Object] private Button btn_proj_status;			
@@ -30,26 +33,33 @@
         [Builder.Object] private Entry ent_proj_path;
         #endregion
         #region LISTSTORES & TREEVIEWS
-        [Builder.Object] private Window window1;
         [Builder.Object] private ListStore lst_listeners;
+        [Builder.Object] private ListStore lst_lsnr_types;
         [Builder.Object] private ListStore lst_projects;
         [Builder.Object] private TreeView trv_projects;
         [Builder.Object] private CellRendererText cell_text_proj_name;
         [Builder.Object] private CellRendererText cell_text_proj_description;
         [Builder.Object] private CellRendererToggle cell_toggle_proj_status;
+        [Builder.Object] private CellRendererText cell_text_lsnr_types;
         [Builder.Object] private TreeViewColumn col_proj_description;
         [Builder.Object] private TreeViewColumn col_proj_status;
         [Builder.Object] private TreeViewColumn col_proj_name;
+        [Builder.Object] private TreeViewColumn col_lsnr_base;                  // A column in lst_lsnr_types of type ListenerBase
+        [Builder.Object] private TreeViewColumn col_lsnr_type;                  // A column in lst_lsnr_types of type string
+        #endregion
+        #region COMBOBOXES
+        [Builder.Object] private ComboBox cmb_lsnr_types;
         #endregion
         #region DIALOGUES
         /* ADD LSNR DIALOG */
         [Builder.Object] private Dialog AddLsnrDialog;
         [Builder.Object] private Button btn_add_lsnr;
         [Builder.Object] private Button btn_add_lsnr_cancel;
-        [Builder.Object] private ComboBox cmb_lsnr_types;
         [Builder.Object] private Entry ent_lsnr_title;
         [Builder.Object] private Entry ent_lsnr_description;
         [Builder.Object] private ToggleButton tgl_lsnr_status;
+        /* ABOUT DIALOG */
+        [Builder.Object] private AboutDialog dlg_about;
         #endregion
         #pragma warning restore 169
         #pragma warning restore 649
@@ -259,6 +269,11 @@
             Project p = (Project)model.GetValue(iter, 0);
             (cell as CellRendererToggle).Active = p.Status;
         }
+//        private void RenderLsnrTypes(TreeViewColumn col, CellRenderer cell, ITreeModel model, TreeIter iter)
+//        {
+//            ListenerBase l = (ListenerBase)model.GetValue(iter, 0);
+//            (cell as CellRendererText).Text = l.Title;
+//        }
         private void SetupCellDataFunctions()
         {
             /* SETUP SETCELLDATAFUNCTIONS */
@@ -269,6 +284,8 @@
             col_proj_description.SetCellDataFunc(cell_text_proj_description, new TreeCellDataFunc(RenderProjectDescription));
             ConsoleMessage.WriteLine("\t[RenderProjectStatus]");
             col_proj_status.SetCellDataFunc(cell_toggle_proj_status, new TreeCellDataFunc(RenderProjectStatus));
+//            ConsoleMessage.WriteLine("\t[RenderLsnrTypes]");
+//            col_lsnr_type.SetCellDataFunc(cell_text_lsnr_types, new TreeCellDataFunc(RenderLsnrTypes));
         }
         #region EVENT HANDLERS
         private void OnDeleteEvent(object sender, DeleteEventArgs e)
@@ -341,23 +358,17 @@
             }
             tgl_lsnr_status.Active = true;
             /* Setup Combobox */
-            ListStore myLsnrTypes = new ListStore(typeof (ListenerBase));
             // Get all the sub classes of ListenerBase.
             var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.IsSubclassOf(typeof(ListenerBase)));
             // Add an instance of each subclass of ListenerBase to a ListStore.
             foreach (Type t in types)
             {
-                myLsnrTypes.AppendValues(Activator.CreateInstance(t));
+                var o = (Activator.CreateInstance(t));
+                lst_lsnr_types.AppendValues(o, o.ToString());   // The combobox shows the information in parameter 1 so we know what type of listener we're selecting.  It may be possible to do all this with one column instead using a CellRenderer method. 2017-08-20 BJH.
             }
-            // Set our ListStore as the model for the combobox.
-            cmb_lsnr_types.Model = myLsnrTypes;
-            CellRenderer cr = new CellRendererText();
-
-            cmb_lsnr_types.PackStart(cr, true);
-            cmb_lsnr_types.AddAttribute(cr, "text", 5);
-            //set first item as active
             cmb_lsnr_types.Active = 0;
-            AddLsnrDialog.Show();
+            AddLsnrDialog.Run();
+            AddLsnrDialog.Destroy();
         }
         private void On_cell_text_proj_name_edited(object sender, EditedArgs e)
         {
@@ -385,6 +396,14 @@
             Button b = (Button)sender;
             ConsoleMessage.WriteLine(b.ToString() + " Button clicked");
 		}
+        private void on_btn_add_lsnr_add_clicked(object sender, EventArgs e)
+        {
+            ConsoleMessage.WriteLine("Add listener add button was clicked");
+        }
+        private void on_about_activate(object sender, EventArgs e)
+        {
+            dlg_about.Show();
+        }
         #endregion
         #endregion
         #region STRUCTS

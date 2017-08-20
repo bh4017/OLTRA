@@ -28,6 +28,87 @@ Author: Brian J Hoskins
   <!-- interface-description One Logger To Rule (them) All -->
   <!-- interface-copyright Brian J Hoskins -->
   <!-- interface-authors Brian J Hoskins -->
+  <object class="GtkAboutDialog" id="dlg_about">
+    <property name="can_focus">False</property>
+    <property name="resizable">False</property>
+    <property name="window_position">center</property>
+    <property name="type_hint">dialog</property>
+    <property name="program_name">OLTRA</property>
+    <property name="version">Version 3.0</property>
+    <property name="copyright" translatable="yes">© Brian J Hoskins, Hoskins.Tech</property>
+    <property name="comments" translatable="yes">One logger to rule (them) all.</property>
+    <property name="website">hoskins.tech</property>
+    <property name="website_label" translatable="yes">Hoskins.Tech</property>
+    <property name="authors">Brian J Hoskins</property>
+    <property name="logo">logo_200.png</property>
+    <property name="license_type">gpl-3-0</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="aboutdialog-vbox1">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="aboutdialog-action_area1">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkListStore" id="lst_debug">
+    <columns>
+      <!-- column-name TIME -->
+      <column type="gchararray"/>
+      <!-- column-name TYPE -->
+      <column type="gchararray"/>
+      <!-- column-name MESSAGE -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="lst_extraction_engines"/>
+  <object class="GtkListStore" id="lst_history">
+    <columns>
+      <!-- column-name TIME_STAMP -->
+      <column type="gchararray"/>
+      <!-- column-name SERIAL_NUMBER -->
+      <column type="gchararray"/>
+      <!-- column-name RESULT -->
+      <column type="gboolean"/>
+      <!-- column-name MESSAGE -->
+      <column type="gchararray"/>
+      <!-- column-name STATION -->
+      <column type="gchararray"/>
+      <!-- column-name REJECT_ID -->
+      <column type="guint"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="lst_listeners">
+    <columns>
+      <!-- column-name col_name -->
+      <column type="gchararray"/>
+      <!-- column-name col_description -->
+      <column type="gchararray"/>
+      <!-- column-name col_type -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="lst_lsnr_types">
+    <columns>
+      <!-- column-name col_lsnr_base -->
+      <column type="ListenerBase"/>
+      <!-- column-name col_lsnr_type -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkDialog" id="AddLsnrDialog">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">OLTRA - Add Listener</property>
@@ -44,7 +125,7 @@ Author: Brian J Hoskins
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="btn_add_lsnr_cancel">
-                <property name="label" translatable="yes">Cancel</property>
+                <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -52,6 +133,7 @@ Author: Brian J Hoskins
                 <property name="margin_right">5</property>
                 <property name="margin_top">5</property>
                 <property name="margin_bottom">5</property>
+                <property name="use_stock">True</property>
                 <property name="xalign">0.55000001192092896</property>
               </object>
               <packing>
@@ -62,14 +144,19 @@ Author: Brian J Hoskins
             </child>
             <child>
               <object class="GtkButton" id="btn_add_lsnr">
-                <property name="label" translatable="yes">Add</property>
+                <property name="label">gtk-add</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="has_default">True</property>
                 <property name="receives_default">True</property>
                 <property name="margin_left">5</property>
                 <property name="margin_right">5</property>
                 <property name="margin_top">5</property>
                 <property name="margin_bottom">5</property>
+                <property name="use_stock">True</property>
+                <property name="xalign">0.49000000953674316</property>
+                <signal name="clicked" handler="on_btn_add_lsnr_add_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -227,6 +314,13 @@ Author: Brian J Hoskins
                     <property name="margin_right">5</property>
                     <property name="margin_top">5</property>
                     <property name="margin_bottom">5</property>
+                    <property name="model">lst_lsnr_types</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="cell_text_lsnr_types"/>
+                      <attributes>
+                        <attribute name="text">1</attribute>
+                      </attributes>
+                    </child>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -249,138 +343,6 @@ Author: Brian J Hoskins
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkDialog" id="dialog1">
-    <property name="can_focus">False</property>
-    <property name="type_hint">dialog</property>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="dialog-vbox1">
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox" id="dialog-action_area1">
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="btn_about_ok">
-                <property name="label" translatable="yes">OK</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="box7">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
-            <child>
-              <object class="GtkImage" id="img_logo">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="stock">gtk-missing-image</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label13">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">V0.1</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label14">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Brian J Hoskins</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label15">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">brian@hoskins.tech</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">3</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
-  <object class="GtkListStore" id="lst_debug">
-    <columns>
-      <!-- column-name TIME STAMP -->
-      <column type="gchararray"/>
-      <!-- column-name TYPE -->
-      <column type="gchararray"/>
-      <!-- column-name MESSAGE -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="lst_extraction_engines"/>
-  <object class="GtkListStore" id="lst_history">
-    <columns>
-      <!-- column-name TIME_STAMP -->
-      <column type="gchararray"/>
-      <!-- column-name SERIAL_NUMBER -->
-      <column type="gchararray"/>
-      <!-- column-name RESULT -->
-      <column type="gboolean"/>
-      <!-- column-name MESSAGE -->
-      <column type="gchararray"/>
-      <!-- column-name STATION -->
-      <column type="gchararray"/>
-      <!-- column-name REJECT_ID -->
-      <column type="guint"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="lst_listeners">
-    <columns>
-      <!-- column-name col_name -->
-      <column type="gchararray"/>
-      <!-- column-name col_description -->
-      <column type="gchararray"/>
-      <!-- column-name col_type -->
-      <column type="gchararray"/>
-    </columns>
   </object>
   <object class="GtkListStore" id="lst_projects"/>
   <object class="GtkWindow" id="window1">
@@ -542,6 +504,7 @@ Author: Brian J Hoskins
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
+                        <signal name="activate" handler="on_about_activate" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -1750,6 +1713,4 @@ ID</property>
       <class name="styles.css"/>
     </style>
   </object>
-  <object class="GtkTreeStore" id="treestore1"/>
-  <object class="GtkTreeStore" id="treestore2"/>
 </interface>
