@@ -14,8 +14,9 @@
 		}
 	}
 
-    public class ConsoleMessage
+    public static class ConsoleMessage
     {
+        /* METHODS */
         public static void WriteLine(string message, MessageType type = MessageType.Info)
         {
             DateTime dt = DateTime.Now;
@@ -34,8 +35,36 @@
                     break;
             }
             Console.WriteLine(String.Format("{0:yyyy-MM-dd  HH:mm:ss.ff} | {1}", dt, message));
+            MessageEventArgs e = new MessageEventArgs(dt, message, type);
+            MessageOutput(null, e);
             Console.ResetColor();
         }
+        /* EVENTS */
+        public static event EventHandler<MessageEventArgs> MessageOutput = delegate {};
+
+        /* CLASSES */
+
     }
+
+    public class MessageEventArgs
+    {
+        public DateTime Dt { get; private set;}
+        public string Message { get; private set;}
+        public MessageType Type { get; private set;}
+
+        /* CONSTRUCTORS */
+        public MessageEventArgs()
+        {
+
+        }
+        public MessageEventArgs(DateTime dt, string message, MessageType type)
+        {
+            Dt = dt;
+            Message = message;
+            Type = type;
+        }
+    }
+
+
 }
 

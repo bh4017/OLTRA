@@ -36,6 +36,7 @@
         [Builder.Object] private ListStore lst_listeners;
         [Builder.Object] private ListStore lst_lsnr_types;
         [Builder.Object] private ListStore lst_projects;
+        [Builder.Object] private ListStore lst_debug;
         [Builder.Object] private TreeView trv_projects;
         [Builder.Object] private CellRendererText cell_text_proj_name;
         [Builder.Object] private CellRendererText cell_text_proj_description;
@@ -124,6 +125,7 @@
         }
         private bool Startup()
         {
+            ConsoleMessage.MessageOutput += new EventHandler<MessageEventArgs>(MessageOutput);
             ConsoleMessage.WriteLine("Running initial startup routine.");
             ConsoleMessage.WriteLine("Detected platform: " + Environment.OSVersion.Platform.ToString());
             ConsoleMessage.WriteLine("Maximizing window size...");
@@ -288,6 +290,27 @@
 //            col_lsnr_type.SetCellDataFunc(cell_text_lsnr_types, new TreeCellDataFunc(RenderLsnrTypes));
         }
         #region EVENT HANDLERS
+        private void MessageOutput(object sender, MessageEventArgs e)
+        {
+            string t = String.Format("{0:yyyy-MM-dd  HH:mm:ss.ff}", e.Dt);
+            string colour = "Green";
+            string type = "INFO";
+            switch(e.Type)
+            {
+                case MessageType.Warning:
+                    colour = "Yellow";
+                    type = "INFO";
+                    break;
+                case MessageType.Error:
+                    colour = "Red";
+                    type = "ERROR";
+                    break;
+                default:
+                    Console.ResetColor();
+                    break;
+            }
+            lst_debug.AppendValues(t, type, e.Message, colour);
+        }
         private void OnDeleteEvent(object sender, DeleteEventArgs e)
         {           
             e.RetVal = CloseApplication();
@@ -347,28 +370,28 @@
         }
         private void On_btn_lsnr_add_clicked(object sender, EventArgs e)
         {
-            TreeSelection projSelection = trv_projects.Selection;
-            TreeIter iter;
-            projSelection.GetSelected(out iter);
-            Project p = (Project)lst_projects.GetValue(iter, 0);
-            if (p == null)
-            {
-                MessageBox.Show("Please select the project you want to add a listener to first!", MessageType.Error);
-                return;
-            }
-            tgl_lsnr_status.Active = true;
-            /* Setup Combobox */
-            // Get all the sub classes of ListenerBase.
-            var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.IsSubclassOf(typeof(ListenerBase)));
-            // Add an instance of each subclass of ListenerBase to a ListStore.
-            foreach (Type t in types)
-            {
-                var o = (Activator.CreateInstance(t));
-                lst_lsnr_types.AppendValues(o, o.ToString());   // The combobox shows the information in parameter 1 so we know what type of listener we're selecting.  It may be possible to do all this with one column instead using a CellRenderer method. 2017-08-20 BJH.
-            }
-            cmb_lsnr_types.Active = 0;
-            AddLsnrDialog.Run();
-            AddLsnrDialog.Destroy();
+//            TreeSelection projSelection = trv_projects.Selection;
+//            TreeIter iter;
+//            projSelection.GetSelected(out iter);
+//            Project p = (Project)lst_projects.GetValue(iter, 0);
+//            if (p == null)
+//            {
+//                MessageBox.Show("Please select the project you want to add a listener to first!", MessageType.Error);
+//                return;
+//            }
+//            tgl_lsnr_status.Active = true;
+//            /* Setup Combobox */
+//            // Get all the sub classes of ListenerBase.
+//            var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.IsSubclassOf(typeof(ListenerBase)));
+//            // Add an instance of each subclass of ListenerBase to a ListStore.
+//            foreach (Type t in types)
+//            {
+//                var o = (Activator.CreateInstance(t));
+//                lst_lsnr_types.AppendValues(o, o.ToString());   // The combobox shows the information in parameter 1 so we know what type of listener we're selecting.  It may be possible to do all this with one column instead using a CellRenderer method. 2017-08-20 BJH.
+//            }
+//            cmb_lsnr_types.Active = 0;
+//            AddLsnrDialog.Run();
+//            AddLsnrDialog.Destroy();
         }
         private void On_cell_text_proj_name_edited(object sender, EditedArgs e)
         {
@@ -404,10 +427,17 @@
         {
             dlg_about.Show();
         }
-        private void on_nbk_engineering_select_page(object sender, EventArgs e)
+        private void on_nbk_engineering_select_page(object sender, SelectPageArgs e)
         {
-            NotebookPage p = (NotebookPage)sender;
-            MessageBox.Show(p.
+            ConsoleMessage.WriteLine("page selected");
+        }
+        private void on_swt_application_debug_state_set(object sender, EventArgs e)
+        {
+            ConsoleMessage.WriteLine("hello");
+        }
+        private void on_swt_application_debug_activate(object sender, EventArgs e)
+        {
+            ConsoleMessage.WriteLine("hello");
         }
         #endregion
         #endregion
