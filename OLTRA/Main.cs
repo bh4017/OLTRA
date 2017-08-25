@@ -398,11 +398,16 @@
 		}
         private void on_btn_add_lsnr_add_clicked(object sender, EventArgs e)
         {
-            ConsoleMessage.WriteLine("Add listener add button was clicked");
+            AddLsnrDialog.Hide();
         }
         private void on_about_activate(object sender, EventArgs e)
         {
             dlg_about.Show();
+        }
+        private void on_nbk_engineering_select_page(object sender, EventArgs e)
+        {
+            NotebookPage p = (NotebookPage)sender;
+            MessageBox.Show(p.
         }
         #endregion
         #endregion
