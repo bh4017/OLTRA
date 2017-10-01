@@ -49,7 +49,7 @@
         [Builder.Object] private TreeViewColumn col_lsnr_type;                  // A column in lst_lsnr_types of type string
         #endregion
         #region COMBOBOXES
-        [Builder.Object] private ComboBox cmb_lsnr_types;
+        [Builder.Object] private ComboBox cmb_lsnr_type;
         #endregion
         #region DIALOGUES
         /* ADD LSNR DIALOG */
@@ -215,6 +215,16 @@
             /* LOAD EXISTING PROJECTS */
             LoadProjects();
 
+            /* Setup Listener Combobox */
+            // Get all the sub classes of ListenerBase.
+            var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.IsSubclassOf(typeof(ListenerBase)));
+            // Add an instance of each subclass of ListenerBase to a ListStore.
+            foreach (Type t in types)
+            {
+                var o = (Activator.CreateInstance(t));
+                lst_lsnr_types.AppendValues(o, o.ToString());   // The combobox shows the information in parameter 1 so we know what type of listener we're selecting.  It may be possible to do all this with one column instead using a CellRenderer method. 2017-08-20 BJH.
+            }
+            //cmb_lsnr_type.Active = 0;
             return false;
         }
         private void SaveProject()
@@ -370,28 +380,18 @@
         }
         private void On_btn_lsnr_add_clicked(object sender, EventArgs e)
         {
-//            TreeSelection projSelection = trv_projects.Selection;
-//            TreeIter iter;
-//            projSelection.GetSelected(out iter);
-//            Project p = (Project)lst_projects.GetValue(iter, 0);
-//            if (p == null)
-//            {
-//                MessageBox.Show("Please select the project you want to add a listener to first!", MessageType.Error);
-//                return;
-//            }
-//            tgl_lsnr_status.Active = true;
-//            /* Setup Combobox */
-//            // Get all the sub classes of ListenerBase.
-//            var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.IsSubclassOf(typeof(ListenerBase)));
-//            // Add an instance of each subclass of ListenerBase to a ListStore.
-//            foreach (Type t in types)
-//            {
-//                var o = (Activator.CreateInstance(t));
-//                lst_lsnr_types.AppendValues(o, o.ToString());   // The combobox shows the information in parameter 1 so we know what type of listener we're selecting.  It may be possible to do all this with one column instead using a CellRenderer method. 2017-08-20 BJH.
-//            }
-//            cmb_lsnr_types.Active = 0;
-//            AddLsnrDialog.Run();
-//            AddLsnrDialog.Destroy();
+            TreeSelection projSelection = trv_projects.Selection;
+            TreeIter iter;
+            projSelection.GetSelected(out iter);
+            Project p = (Project)lst_projects.GetValue(iter, 0);
+            if (p == null)
+            {
+                MessageBox.Show("Please select the project you want to add a listener to first!", MessageType.Error);
+                return;
+            }
+            tgl_lsnr_status.Active = true;
+
+            ConsoleMessage.WriteLine(cmb_lsnr_type.Active.ToString());
         }
         private void On_cell_text_proj_name_edited(object sender, EditedArgs e)
         {
@@ -421,7 +421,8 @@
 		}
         private void on_btn_add_lsnr_add_clicked(object sender, EventArgs e)
         {
-            AddLsnrDialog.Hide();
+            //AddLsnrDialog.Hide();
+
         }
         private void on_about_activate(object sender, EventArgs e)
         {

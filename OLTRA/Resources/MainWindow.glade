@@ -309,7 +309,9 @@ Author: Brian J Hoskins
   </object>
   <object class="GtkListStore" id="lst_lsnr_types">
     <columns>
-      <!-- column-name col_lsnr_type -->
+      <!-- column-name col_Listener -->
+      <column type="OLTRA.Listener"/>
+      <!-- column-name col_ListenerString -->
       <column type="gchararray"/>
     </columns>
   </object>
