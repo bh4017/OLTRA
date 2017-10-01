@@ -1595,7 +1595,7 @@ ID</property>
                 <property name="margin_bottom">5</property>
                 <property name="spacing">5</property>
                 <property name="homogeneous">True</property>
-                <property name="layout_style">start</property>
+                <property name="layout_style">expand</property>
                 <child>
                   <object class="GtkButton" id="button1">
                     <property name="label" translatable="yes">hello</property>
@@ -1673,6 +1673,8 @@ ID</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="valign">start</property>
+                    <property name="resize_mode">immediate</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1682,7 +1684,7 @@ ID</property>
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
@@ -1701,9 +1703,6 @@ ID</property>
                 <property name="pack_type">end</property>
                 <property name="position">1</property>
               </packing>
-            </child>
-            <child>
-              <placeholder/>
             </child>
           </object>
           <packing>
