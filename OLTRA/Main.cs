@@ -431,7 +431,7 @@
         {
             ConsoleMessage.WriteLine("page selected");
         }
-        private void on_swt_application_debug_state_set(object sender, EventArgs e)
+        private void on_swt_application_debug_state_set(object sender, StateSetArgs e)
         {
             ConsoleMessage.WriteLine("hello");
         }
