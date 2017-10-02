@@ -297,24 +297,8 @@ Author: Brian J Hoskins
       <column type="guint"/>
     </columns>
   </object>
-  <object class="GtkListStore" id="lst_listeners">
-    <columns>
-      <!-- column-name col_name -->
-      <column type="gchararray"/>
-      <!-- column-name col_description -->
-      <column type="gchararray"/>
-      <!-- column-name col_type -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="lst_lsnr_types">
-    <columns>
-      <!-- column-name col_Listener -->
-      <column type="OLTRA.Listener"/>
-      <!-- column-name col_ListenerString -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
+  <object class="GtkListStore" id="lst_listeners"/>
+  <object class="GtkListStore" id="lst_lsnr_types"/>
   <object class="GtkListStore" id="lst_projects"/>
   <object class="GtkWindow" id="window1">
     <property name="visible">True</property>

@@ -215,7 +215,14 @@
             /* LOAD EXISTING PROJECTS */
             LoadProjects();
 
-            /* Setup Listener Combobox */
+            /* SETUP LISTENER COMBOBOX */
+            ConsoleMessage.WriteLine("Setting up Listener combobox...");
+            // First we have to set up the ListStore because it doesn't work if you do this in Glade.
+            ConsoleMessage.WriteLine("Creating ListStore for combobox");
+            lst_lsnr_types = new ListStore(typeof(ListenerBase), typeof(string));
+            ConsoleMessage.WriteLine("Setting combobox model to lst_lsnr_types");
+            cmb_lsnr_type.Model = lst_lsnr_types;
+            ConsoleMessage.WriteLine("Programatically get all the types of ListenerBase...");
             // Get all the sub classes of ListenerBase.
             var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.IsSubclassOf(typeof(ListenerBase)));
             // Add an instance of each subclass of ListenerBase to a ListStore.
@@ -223,6 +230,7 @@
             {
                 var o = (Activator.CreateInstance(t));
                 lst_lsnr_types.AppendValues(o, o.ToString());   // The combobox shows the information in parameter 1 so we know what type of listener we're selecting.  It may be possible to do all this with one column instead using a CellRenderer method. 2017-08-20 BJH.
+                ConsoleMessage.WriteLine("> Found " + o.ToString());
             }
             //cmb_lsnr_type.Active = 0;
             return false;
@@ -391,7 +399,17 @@
             }
             tgl_lsnr_status.Active = true;
 
-            ConsoleMessage.WriteLine(cmb_lsnr_type.Active.ToString());
+            if (cmb_lsnr_type.Active == -1)
+            {
+                MessageBox.Show("Select a listener type first!", MessageType.Error);
+                return;
+            }
+            else
+            {
+                cmb_lsnr_type.GetActiveIter(out iter);
+                var listener = (ListenerBase)lst_lsnr_types.GetValue(iter, 0);
+                lst_listeners.AppendValues(listener);
+            }
         }
         private void On_cell_text_proj_name_edited(object sender, EditedArgs e)
         {

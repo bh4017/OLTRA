@@ -44,6 +44,7 @@
         #endregion
         #region METHODS
         public abstract void Listen();
+
         #region EVENT HANDLERS
         #endregion
         #endregion
@@ -121,7 +122,7 @@
         #endregion
     }             
 	#endregion
-    #region FILE LISTENER CLASS
+    #region NETWORK LISTENER CLASS
     public class NetListener : ListenerBase, ISerializable
     {
         #region CONSTANT FIELDS
