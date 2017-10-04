@@ -64,10 +64,5 @@
             Type = type;
         }
     }
-    public class ListStoreBJH : ListStore, ISerializable
-    {
-
-    }
-
 }
 

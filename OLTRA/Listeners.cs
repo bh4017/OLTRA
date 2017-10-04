@@ -10,6 +10,7 @@
     using HelperClassesBJH;
 
     #region LISTENER BASE CLASS
+    [Serializable]
     public abstract class ListenerBase
     {
         #region CONSTANT FIELDS
@@ -44,7 +45,6 @@
         #endregion
         #region METHODS
         public abstract void Listen();
-
         #region EVENT HANDLERS
         #endregion
         #endregion
@@ -55,6 +55,7 @@
     }
     #endregion
     #region FILE LISTENER CLASS
+    [Serializable]
     public class FileListener : ListenerBase, ISerializable
     {
         #region CONSTANT FIELDS
@@ -123,6 +124,7 @@
     }             
 	#endregion
     #region NETWORK LISTENER CLASS
+    [Serializable]
     public class NetListener : ListenerBase, ISerializable
     {
         #region CONSTANT FIELDS

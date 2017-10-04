@@ -38,6 +38,7 @@
         [Builder.Object] private ListStore lst_projects;
         [Builder.Object] private ListStore lst_debug;
         [Builder.Object] private TreeView trv_projects;
+        [Builder.Object] private TreeView trv_listeners;
         [Builder.Object] private CellRendererText cell_text_proj_name;
         [Builder.Object] private CellRendererText cell_text_proj_description;
         [Builder.Object] private CellRendererToggle cell_toggle_proj_status;
@@ -452,11 +453,23 @@
         }
         private void on_swt_application_debug_state_set(object sender, StateSetArgs e)
         {
-            ConsoleMessage.WriteLine("hello");
+            ConsoleMessage.WriteLine("on_swt_application_debug_state_set");
         }
         private void on_swt_application_debug_activate(object sender, EventArgs e)
         {
-            ConsoleMessage.WriteLine("hello");
+            ConsoleMessage.WriteLine("on_swt_application_debug_activate");
+        }
+        private void on_trv_projects_cursor_changed(object sender, EventArgs e)
+        {
+            TreeIter iter;
+            trv_projects.Selection.GetSelected(out iter);
+            Project p = (Project)lst_projects.GetValue(iter, 0);
+            if(p != null)
+                trv_listeners.Model = p.Listeners;
+        }
+        private void on_trv_projects_row_activated(object sender, RowActivatedArgs e)
+        {
+            ConsoleMessage.WriteLine("on_trv_projects_row_activated");
         }
         #endregion
         #endregion

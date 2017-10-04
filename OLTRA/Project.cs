@@ -4,6 +4,7 @@ using Gtk;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
+using HelperClassesBJH;
 
 namespace OLTRA
 {
@@ -24,7 +25,14 @@ namespace OLTRA
             Title = si.GetString("Title");
             Description = si.GetString("Description");
             Status = si.GetBoolean("Status");
-            Listeners = (ListStore)si.GetValue("Listeners", typeof(ListStore));
+            ListenersTBS = (List<ListenerBase>)si.GetValue("ListenersTBS", typeof(List<ListenerBase>));
+            /* LISTENER DESERIALISATION */
+            // Convert the .net List into the ListStore
+            Listeners = new ListStore(typeof(ListenerBase));
+            foreach (ListenerBase l in ListenersTBS)
+            {
+                Listeners.AppendValues(l);
+            }
         }
         #endregion
         #region DESTRUCTORS
@@ -42,6 +50,7 @@ namespace OLTRA
         public string Description { get; set; }
         public bool Status { get; set; }
 		public ListStore Listeners { get; set; }
+        public List<ListenerBase> ListenersTBS { get; set; }        // A ListStore is not serialisable so I use a regular .net List as a go-between.
         #endregion
         #region INDEXERS
         #endregion
@@ -51,7 +60,14 @@ namespace OLTRA
             si.AddValue("Title", Title);
             si.AddValue("Description", Description);
             si.AddValue("Status", Status);
-            si.AddValue("Listeners", Listeners);
+            /* LISTENER SERIALISATION */
+            // Convert the Listeners ListStore into a regular .net List for serialisation
+            ListenersTBS = new List<ListenerBase>();
+            foreach (ListenerBase l in Listeners)
+            {
+                ListenersTBS.Add(l);
+            }
+            si.AddValue("ListenersTBS", ListenersTBS);
         }
         #region EVENT HANDLERS
         #endregion
