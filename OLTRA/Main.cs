@@ -215,6 +215,9 @@
             /* LOAD EXISTING PROJECTS */
             LoadProjects();
 
+            /* SETUP LIST OF LISTENERS */
+            ConsoleMessage.WriteLine("Setting up lst_listeners");
+            lst_listeners = new ListStore(typeof(ListenerBase));
             /* SETUP LISTENER COMBOBOX */
             ConsoleMessage.WriteLine("Setting up Listener combobox...");
             // First we have to set up the ListStore because it doesn't work if you do this in Glade.
@@ -298,14 +301,11 @@
         {
             /* SETUP SETCELLDATAFUNCTIONS */
             ConsoleMessage.WriteLine("Setting up 'SetCellDataFunctions:");
-            ConsoleMessage.WriteLine("\t[RenderProjectName]");
+            ConsoleMessage.WriteLine("> [RenderProjectName]");
             col_proj_name.SetCellDataFunc(cell_text_proj_name, new TreeCellDataFunc(RenderProjectName));
-            ConsoleMessage.WriteLine("\t[RenderProjectDescription]");
+            ConsoleMessage.WriteLine("> [RenderProjectDescription]");
             col_proj_description.SetCellDataFunc(cell_text_proj_description, new TreeCellDataFunc(RenderProjectDescription));
-            ConsoleMessage.WriteLine("\t[RenderProjectStatus]");
-            col_proj_status.SetCellDataFunc(cell_toggle_proj_status, new TreeCellDataFunc(RenderProjectStatus));
-//            ConsoleMessage.WriteLine("\t[RenderLsnrTypes]");
-//            col_lsnr_type.SetCellDataFunc(cell_text_lsnr_types, new TreeCellDataFunc(RenderLsnrTypes));
+            ConsoleMessage.WriteLine("> [RenderProjectStatus]");
         }
         #region EVENT HANDLERS
         private void MessageOutput(object sender, MessageEventArgs e)

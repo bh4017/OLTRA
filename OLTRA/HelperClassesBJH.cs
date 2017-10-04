@@ -1,6 +1,8 @@
 ﻿namespace HelperClassesBJH
 {
     using System;
+    using System.Runtime.Serialization;
+    using System.Runtime.Serialization.Formatters.Binary;
     using Gtk;
 
 	public class MessageBox
@@ -13,7 +15,6 @@
 			md.Destroy();
 		}
 	}
-
     public static class ConsoleMessage
     {
         /* METHODS */
@@ -45,7 +46,6 @@
         /* CLASSES */
 
     }
-
     public class MessageEventArgs
     {
         public DateTime Dt { get; private set;}
@@ -64,7 +64,10 @@
             Type = type;
         }
     }
+    public class ListStoreBJH : ListStore, ISerializable
+    {
 
+    }
 
 }
 
