@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tcl_Main = new System.Windows.Forms.TabControl();
@@ -53,7 +53,7 @@
             this.gbx_ExtractionEngines = new System.Windows.Forms.GroupBox();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.gbx_Listeners = new System.Windows.Forms.GroupBox();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.dgv_Listeners = new System.Windows.Forms.DataGridView();
             this.gbx_Projects = new System.Windows.Forms.GroupBox();
             this.dgv_Projects = new System.Windows.Forms.DataGridView();
             this.tpg_Settings = new System.Windows.Forms.TabPage();
@@ -66,9 +66,9 @@
             this.btn_Global_5 = new System.Windows.Forms.Button();
             this.btn_Global_6 = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tmr_Visualisations = new System.Windows.Forms.Timer(this.components);
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             this.tcl_Main.SuspendLayout();
             this.tpg_Summary.SuspendLayout();
@@ -82,7 +82,7 @@
             this.gbx_ExtractionEngines.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.gbx_Listeners.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Listeners)).BeginInit();
             this.gbx_Projects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Projects)).BeginInit();
             this.tpg_Debug.SuspendLayout();
@@ -330,7 +330,7 @@
             // 
             // gbx_Listeners
             // 
-            this.gbx_Listeners.Controls.Add(this.dataGridView2);
+            this.gbx_Listeners.Controls.Add(this.dgv_Listeners);
             this.gbx_Listeners.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbx_Listeners.Location = new System.Drawing.Point(491, 6);
             this.gbx_Listeners.Name = "gbx_Listeners";
@@ -340,16 +340,16 @@
             this.gbx_Listeners.Text = "LISTENERS";
             this.gbx_Listeners.Enter += new System.EventHandler(this.On_Editor_Listener_Selected);
             // 
-            // dataGridView2
+            // dgv_Listeners
             // 
-            this.dataGridView2.AllowUserToAddRows = false;
-            this.dataGridView2.AllowUserToDeleteRows = false;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(6, 19);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.ReadOnly = true;
-            this.dataGridView2.Size = new System.Drawing.Size(438, 267);
-            this.dataGridView2.TabIndex = 1;
+            this.dgv_Listeners.AllowUserToAddRows = false;
+            this.dgv_Listeners.AllowUserToDeleteRows = false;
+            this.dgv_Listeners.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_Listeners.Location = new System.Drawing.Point(6, 19);
+            this.dgv_Listeners.Name = "dgv_Listeners";
+            this.dgv_Listeners.ReadOnly = true;
+            this.dgv_Listeners.Size = new System.Drawing.Size(438, 267);
+            this.dgv_Listeners.TabIndex = 1;
             // 
             // gbx_Projects
             // 
@@ -367,20 +367,20 @@
             // 
             this.dgv_Projects.AllowUserToAddRows = false;
             this.dgv_Projects.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Gainsboro;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            this.dgv_Projects.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Gainsboro;
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgv_Projects.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgv_Projects.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.NullValue = null;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Fuchsia;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Projects.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.NullValue = null;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Fuchsia;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Projects.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgv_Projects.Location = new System.Drawing.Point(7, 19);
             this.dgv_Projects.Name = "dgv_Projects";
             this.dgv_Projects.Size = new System.Drawing.Size(328, 267);
@@ -493,15 +493,6 @@
             this.splitContainer1.SplitterDistance = 733;
             this.splitContainer1.TabIndex = 2;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::OLTRA.Properties.Resources.logo;
-            this.pictureBox1.Location = new System.Drawing.Point(9, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(250, 100);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -516,6 +507,15 @@
             // tmr_Visualisations
             // 
             this.tmr_Visualisations.Enabled = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::OLTRA.Properties.Resources.logo;
+            this.pictureBox1.Location = new System.Drawing.Point(9, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(250, 100);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // Main
             // 
@@ -544,7 +544,7 @@
             this.gbx_ExtractionEngines.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             this.gbx_Listeners.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Listeners)).EndInit();
             this.gbx_Projects.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Projects)).EndInit();
             this.tpg_Debug.ResumeLayout(false);
@@ -582,7 +582,7 @@
         private System.Windows.Forms.TabPage tpg_Projects;
         private System.Windows.Forms.GroupBox gbx_ExtractionEngines;
         private System.Windows.Forms.GroupBox gbx_Listeners;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dgv_Listeners;
         private System.Windows.Forms.GroupBox gbx_Projects;
         private System.Windows.Forms.DataGridView dgv_Projects;
         private System.Windows.Forms.TabPage tpg_Settings;

@@ -273,7 +273,18 @@ namespace OLTRA
                     }
                 case SelectedProjectEditor.Listeners:
                     {
-
+                        if (dgv_Projects.SelectedCells.Count > 0)
+                        {
+                            ConsoleMessage.WriteLine("Adding listener to " + lst_projects[dgv_Projects.SelectedCells[0].RowIndex].Title);
+                            var l = (ListenerBase)cmb_Projects_Type.SelectedValue;
+                            l.Title = "New Listener " + (lst_projects[dgv_Projects.SelectedCells[0].RowIndex].lst_Listeners.Count + 1).ToString();
+                            lst_projects[dgv_Projects.SelectedCells[0].RowIndex].lst_Listeners.Add(l);
+                            dgv_Listeners.DataSource = lst_projects[dgv_Projects.SelectedCells[0].RowIndex].lst_Listeners;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Select a project to add the Listener to!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                         break;
                     }
                 case SelectedProjectEditor.Loggers:
