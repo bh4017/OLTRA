@@ -36,7 +36,7 @@
         /* CLASSES */
 
     }
-    public class MessageEventArgs
+    public class MessageEventArgs : EventArgs
     {
         public DateTime Dt { get; private set;}
         public string Message { get; private set;}

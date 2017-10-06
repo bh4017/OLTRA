@@ -53,13 +53,7 @@ namespace OLTRA
             si.AddValue("Description", Description);
             si.AddValue("Status", Status);
             /* LISTENER SERIALISATION */
-            // Convert the Listeners ListStore into a regular .net List for serialisation
-            ListenersTBS = new List<ListenerBase>();
-            foreach (ListenerBase l in Listeners)
-            {
-                ListenersTBS.Add(l);
-            }
-            si.AddValue("ListenersTBS", ListenersTBS);
+            
         }
         #region EVENT HANDLERS
         #endregion

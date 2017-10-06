@@ -62,7 +62,7 @@ namespace OLTRA
             if (String.IsNullOrEmpty(path))
             {
                 ConsoleMessage.WriteLine("Home directory not set!");
-                MessageBox.Show("$HOME environment variable not set!\nContact IT administrator!\n\nApplication will now quit", type: MessageType.Error);
+                MessageBox.Show("$HOME environment variable not set!\nContact IT administrator!\n\nApplication will now quit","ERROR",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 Application.Exit();
             }
             else
@@ -87,7 +87,7 @@ namespace OLTRA
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Failed to deserialise settings file\n" + ex.Message + "\nApplication will now quit!", MessageType.Error);
+                    MessageBox.Show("Failed to deserialise settings file\n" + ex.Message + "\nApplication will now quit!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Application.Exit();
                 }
                 finally
@@ -99,7 +99,7 @@ namespace OLTRA
             else
             {
                 // Default Settings
-                ConsoleMessage.WriteLine("OLTRA settings not found, creating default", MessageType.Warning);
+                ConsoleMessage.WriteLine("OLTRA settings not found, creating default", MessageBoxIcon.Warning);
                 OLTRAsettings.ProjectDir = Home + "/OLTRAprojects";
                 if (!Directory.Exists(OLTRAsettings.ProjectDir))
                 {
@@ -115,7 +115,7 @@ namespace OLTRA
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Failed to write default settings! Error:\n" + ex.Message + " Application will now quit", MessageType.Error);
+                    MessageBox.Show("Failed to write default settings! Error:\n" + ex.Message + " Application will now quit", "ERROR", MessageBoxButtons.OK,MessageBoxIcon.Error);
                     Application.Exit();
                 }
             }
@@ -129,7 +129,7 @@ namespace OLTRA
             ConsoleMessage.WriteLine("Setting up Listener combobox...");
             // First we have to set up the ListStore because it doesn't work if you do this in Glade.
             ConsoleMessage.WriteLine("Setting combobox model to lst_lsnr_types");
-            cmb_lsnr_type.Model = lst_lsnr_types;
+            //cmb_lsnr_type.Model = lst_lsnr_types;
             ConsoleMessage.WriteLine("Programatically get all the types of ListenerBase...");
             // Get all the sub classes of ListenerBase.
             var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.IsSubclassOf(typeof(ListenerBase)));
@@ -137,7 +137,7 @@ namespace OLTRA
             foreach (Type t in types)
             {
                 var o = (Activator.CreateInstance(t));
-                lst_lsnr_types.AppendValues(o, o.ToString());   // The combobox shows the information in parameter 1 so we know what type of listener we're selecting.  It may be possible to do all this with one column instead using a CellRenderer method. 2017-08-20 BJH.
+                lst_lsnr_types.Add((ListenerBase)o);   // The combobox shows the information in parameter 1 so we know what type of listener we're selecting.  It may be possible to do all this with one column instead using a CellRenderer method. 2017-08-20 BJH.
                 ConsoleMessage.WriteLine("> Found " + o.ToString());
             }
             //cmb_lsnr_type.Active = 0;
@@ -168,7 +168,7 @@ namespace OLTRA
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show("Failed to deserialise Projects file " + projects[i] + "Error: " + ex.Message, MessageType.Error);
+                            MessageBox.Show("Failed to deserialise Projects file " + projects[i] + "Error: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
