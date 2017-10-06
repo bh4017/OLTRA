@@ -4,6 +4,7 @@ using System.Configuration;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
@@ -22,6 +23,8 @@ namespace OLTRA
         private BindingList<DebugItem> lst_debug = new BindingList<DebugItem>();
         private BindingList<Project> lst_projects = new BindingList<Project>();
         private BindingList<ListenerBase> lst_lsnr_types = new BindingList<ListenerBase>();
+
+        private SelectedProjectEditor selectedProjectEditor = new SelectedProjectEditor();          // This variable is used to control which Project editor area is selected at any time.
         #endregion
         #region CONSTRUCTORS
         public Main()
@@ -37,6 +40,15 @@ namespace OLTRA
         #region EVENTS
         #endregion
         #region ENUMS
+        enum SelectedProjectEditor
+        {
+            None,
+            Projects,
+            Listeners,
+            ExtractionEngines,
+            Loggers,
+            Alerts
+        }
         #endregion
         #region INTERFACES
         #endregion
@@ -50,12 +62,11 @@ namespace OLTRA
         #region METHODS
         private bool Startup()
         {
-            ConsoleMessage.MessageOutput += new EventHandler<MessageEventArgs>(MessageOutput);
+            ConsoleMessage.MessageOutput += new EventHandler<MessageEventArgs>(On_MessageOutput);
             ConsoleMessage.WriteLine("Running initial startup routine.");
             ConsoleMessage.WriteLine("Detected platform: " + Environment.OSVersion.Platform.ToString());
-            ConsoleMessage.WriteLine("Maximizing window size...");
 
-            /* INSTANTIATE SETTINGS AND DETECT PLATFORM */
+            /* INSTANTIATE SETTINGS */
             OLTRAsettings = new Settings();
             /* FIND HOME DIRECTORY */
             string path = Environment.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.Process);   // OLTRA will store settings in $HOME so first it needs to be set!
@@ -124,12 +135,9 @@ namespace OLTRA
 
             /* SETUP LIST OF LISTENERS */
             ConsoleMessage.WriteLine("Setting up lst_listeners");
-          
+            
             /* SETUP LISTENER COMBOBOX */
             ConsoleMessage.WriteLine("Setting up Listener combobox...");
-            // First we have to set up the ListStore because it doesn't work if you do this in Glade.
-            ConsoleMessage.WriteLine("Setting combobox model to lst_lsnr_types");
-            //cmb_lsnr_type.Model = lst_lsnr_types;
             ConsoleMessage.WriteLine("Programatically get all the types of ListenerBase...");
             // Get all the sub classes of ListenerBase.
             var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.IsSubclassOf(typeof(ListenerBase)));
@@ -145,6 +153,7 @@ namespace OLTRA
         }
         private void LoadProjects()
         {
+            dgv_Projects.DataSource = lst_projects;
             ConsoleMessage.WriteLine("Loading existing projects...");
             string regexPattern = @".*\.olp$";      // A regex pattern for matching names ending in .olp
             string[] projects = Directory.GetFiles(OLTRAsettings.ProjectDir);
@@ -178,8 +187,31 @@ namespace OLTRA
                 ConsoleMessage.WriteLine("No projects found!");
             }
         }
+        private void SelectProjectEditor(SelectedProjectEditor spe, GroupBox gbx)
+        {
+            /* CLEAR SELECTION OF ALL EDITORS */
+            selectedProjectEditor = SelectedProjectEditor.None;
+            foreach (GroupBox g in tcl_Engineering.TabPages[0].Controls)
+            {
+                g.BackColor = Color.Transparent;
+            }
+            /* SELECT CHOSEN EDITOR */
+            gbx.BackColor = Color.LimeGreen;
+            selectedProjectEditor = spe;
+            /* ENABLE/DISABLE EDITOR BUTTONS */
+            if (selectedProjectEditor != SelectedProjectEditor.None)
+            {
+                btn_Projects_Add.Enabled = btn_Projects_Delete.Enabled = true;
+            }
+            else
+            {
+                btn_Projects_Add.Enabled = btn_Projects_Delete.Enabled = false;
+            }
+
+            ConsoleMessage.WriteLine("Selected Projects Editor: " + gbx.Text);
+        }
         #region EVENT HANDLERS
-        private void MessageOutput(object sender, MessageEventArgs e)
+        private void On_MessageOutput(object sender, MessageEventArgs e)
         {
             string t = String.Format("{0:yyyy-MM-dd  HH:mm:ss.ff}", e.Dt);
             string colour = "Green";
@@ -200,6 +232,114 @@ namespace OLTRA
             }
             DebugItem d = new DebugItem(t, type, e.Message);
             lst_debug.Add(d);
+        }
+        private void On_Editor_Listener_Selected(object sender, EventArgs e)
+        {
+            GroupBox gbx = (GroupBox)sender;
+            SelectProjectEditor(SelectedProjectEditor.Listeners, gbx);
+            cmb_Projects_Type.DataSource = lst_lsnr_types;
+        }
+        private void On_Editor_Projects_Selected(object sender, EventArgs e)
+        {
+            GroupBox gbx = (GroupBox)sender;
+            SelectProjectEditor(SelectedProjectEditor.Projects, gbx);
+            cmb_Projects_Type.DataSource = null;
+        }
+        private void On_Editor_Loggers_Selected(object sender, EventArgs e)
+        {
+            GroupBox gbx = (GroupBox)sender;
+            SelectProjectEditor(SelectedProjectEditor.Loggers, gbx);
+            cmb_Projects_Type.DataSource = null;
+        }
+        private void On_Editor_ExtractionEngines_Selected(object sender, EventArgs e)
+        {
+            GroupBox gbx = (GroupBox)sender;
+            SelectProjectEditor(SelectedProjectEditor.ExtractionEngines, gbx);
+            cmb_Projects_Type.DataSource = null;
+        }
+        private void On_btn_Projects_Add_Click(object sender, EventArgs e)
+        {
+            switch (selectedProjectEditor)
+            {
+                case SelectedProjectEditor.Projects:
+                    {
+                        Project p = new Project();
+                        p.Title = "New Project " + (lst_projects.Count + 1).ToString();
+                        p.Description = "Blank Project";
+                        p.Status = false;
+                        lst_projects.Add(p);
+                        dgv_Projects.DataSource = lst_projects;
+                        break;
+                    }
+                case SelectedProjectEditor.Listeners:
+                    {
+
+                        break;
+                    }
+                case SelectedProjectEditor.Loggers:
+                    {
+
+                        break;
+                    }
+                case SelectedProjectEditor.ExtractionEngines:
+                    {
+
+                        break;
+                    }
+                case SelectedProjectEditor.Alerts:
+                    {
+
+                        break;
+                    }
+                default:
+                    {
+
+                        break;
+                    }
+            }
+        }
+        private void On_btn_Projects_Delete_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow item in dgv_Projects.SelectedRows)
+            {
+                lst_projects.Remove((Project)item.DataBoundItem);
+            }
+            btn_Projects_Save.Enabled = true;
+        }
+        private void On_btn_Projects_Save_Click(object sender, EventArgs e)
+        {
+            foreach (Project p in lst_projects)
+            {
+                IFormatter bf = new BinaryFormatter();
+                try
+                {
+                    using (FileStream fs = File.Create(OLTRAsettings.ProjectDir + "/" + p.Title + ".olp"))
+                        bf.Serialize(fs, p);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            btn_Projects_Save.Enabled = false;
+            //foreach (DataGridViewRow item in dgv_Projects.SelectedRows)
+            //{
+            //    Project p = (Project)item.DataBoundItem;
+            //    IFormatter bf = new BinaryFormatter();
+            //    try
+            //    {
+            //        using (FileStream fs = File.Create(OLTRAsettings.ProjectDir + "/" + p.Title + ".olp"))
+            //            bf.Serialize(fs, p);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show(ex.Message);
+            //    }
+            //}
+        }
+        private void On_Projects_Cell_Value_Changed(object sender, DataGridViewCellEventArgs e)
+        {
+            btn_Projects_Save.Enabled = true;
         }
         #endregion
         #endregion

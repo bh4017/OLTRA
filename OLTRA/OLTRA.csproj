@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alerts.cs" />
     <Compile Include="ClassTemplate.cs" />
+    <Compile Include="ExtractionEngines.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>

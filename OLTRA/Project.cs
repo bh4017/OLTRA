@@ -18,14 +18,20 @@ namespace OLTRA
         #region CONSTRUCTORS
         public Project () 
         {
-            Listeners = new BindingList<ListenerBase>();
+            lst_Listeners = new BindingList<ListenerBase>();
+        }
+        public Project(string title = "", string description = "", bool status = true)
+        {
+            Title = title;
+            Description = description;
+            Status = status;
         }
         public Project(SerializationInfo si, StreamingContext sc)
         {
             Title = si.GetString("Title");
             Description = si.GetString("Description");
             Status = si.GetBoolean("Status");
-            Listeners = (BindingList<ListenerBase>)si.GetValue("Listeners", typeof(BindingList<ListenerBase>));
+            lst_Listeners = (BindingList<ListenerBase>)si.GetValue("Listeners", typeof(BindingList<ListenerBase>));
         }
         #endregion
         #region DESTRUCTORS
@@ -42,7 +48,7 @@ namespace OLTRA
         public string Title { get; set; }
         public string Description { get; set; }
         public bool Status { get; set; }
-		public BindingList<ListenerBase> Listeners { get; set; }
+		public BindingList<ListenerBase> lst_Listeners { get; set; }
         #endregion
         #region INDEXERS
         #endregion
@@ -52,8 +58,7 @@ namespace OLTRA
             si.AddValue("Title", Title);
             si.AddValue("Description", Description);
             si.AddValue("Status", Status);
-            /* LISTENER SERIALISATION */
-            
+            si.AddValue("Listeners", lst_Listeners);    
         }
         #region EVENT HANDLERS
         #endregion
