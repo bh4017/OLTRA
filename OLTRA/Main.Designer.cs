@@ -66,9 +66,9 @@
             this.btn_Global_5 = new System.Windows.Forms.Button();
             this.btn_Global_6 = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tmr_Visualisations = new System.Windows.Forms.Timer(this.components);
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             this.tcl_Main.SuspendLayout();
             this.tpg_Summary.SuspendLayout();
@@ -385,6 +385,7 @@
             this.dgv_Projects.Name = "dgv_Projects";
             this.dgv_Projects.Size = new System.Drawing.Size(328, 267);
             this.dgv_Projects.TabIndex = 0;
+            this.dgv_Projects.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.On_Projects_Cell_Mouse_Clicked);
             this.dgv_Projects.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.On_Projects_Cell_Value_Changed);
             // 
             // tpg_Settings
@@ -424,8 +425,9 @@
             this.btn_Global_1.Name = "btn_Global_1";
             this.btn_Global_1.Size = new System.Drawing.Size(112, 90);
             this.btn_Global_1.TabIndex = 2;
-            this.btn_Global_1.Text = "button1";
+            this.btn_Global_1.Text = "START";
             this.btn_Global_1.UseVisualStyleBackColor = true;
+            this.btn_Global_1.Click += new System.EventHandler(this.btn_Global_1_Click);
             // 
             // btn_Global_2
             // 
@@ -493,21 +495,6 @@
             this.splitContainer1.SplitterDistance = 733;
             this.splitContainer1.TabIndex = 2;
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.Fuchsia;
-            this.label2.Location = new System.Drawing.Point(689, 9);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(307, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "OLTRA Version 4.0.1. Brian J Hoskins, KSR Electronic Systems";
-            // 
-            // tmr_Visualisations
-            // 
-            this.tmr_Visualisations.Enabled = true;
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::OLTRA.Properties.Resources.logo;
@@ -516,6 +503,21 @@
             this.pictureBox1.Size = new System.Drawing.Size(250, 100);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.Fuchsia;
+            this.label2.Location = new System.Drawing.Point(733, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(259, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "OLTRA Version 4.0.1. Brian J Hoskins, Hoskins.Tech";
+            // 
+            // tmr_Visualisations
+            // 
+            this.tmr_Visualisations.Enabled = true;
             // 
             // Main
             // 

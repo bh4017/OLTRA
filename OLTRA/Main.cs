@@ -276,8 +276,11 @@ namespace OLTRA
                         if (dgv_Projects.SelectedCells.Count > 0)
                         {
                             ConsoleMessage.WriteLine("Adding listener to " + lst_projects[dgv_Projects.SelectedCells[0].RowIndex].Title);
-                            var l = (ListenerBase)cmb_Projects_Type.SelectedValue;
+                            var l = (ListenerBase)cmb_Projects_Type.SelectedValue;  // Get the selected value from the Add combobox.
+                            var type = l.GetType();                                 // Determine the type of the object
+                            l = (ListenerBase)Activator.CreateInstance(type);       // Create a new instance of the type
                             l.Title = "New Listener " + (lst_projects[dgv_Projects.SelectedCells[0].RowIndex].lst_Listeners.Count + 1).ToString();
+                            l.Description = String.Format("New {0} Listener Object", l.ToString());
                             lst_projects[dgv_Projects.SelectedCells[0].RowIndex].lst_Listeners.Add(l);
                             dgv_Listeners.DataSource = lst_projects[dgv_Projects.SelectedCells[0].RowIndex].lst_Listeners;
                         }
@@ -306,9 +309,12 @@ namespace OLTRA
                     {
 
                         break;
+
                     }
             }
+            btn_Projects_Save.Enabled = true;
         }
+                    
         private void On_btn_Projects_Delete_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow item in dgv_Projects.SelectedRows)
@@ -352,6 +358,12 @@ namespace OLTRA
         {
             btn_Projects_Save.Enabled = true;
         }
+        private void On_Projects_Cell_Mouse_Clicked(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            dgv_Listeners.DataSource = lst_projects[e.RowIndex].lst_Listeners;
+            // TODO
+            // Do the same for the other datagridviews
+        }
         #endregion
         #endregion
         #region STRUCTS
@@ -373,5 +385,16 @@ namespace OLTRA
             }
         }
         #endregion 
+
+        private void btn_Global_1_Click(object sender, EventArgs e)
+        {
+            foreach (Project p in lst_projects)
+            {
+                foreach (ListenerBase l in p.lst_Listeners)
+                {
+                    l.Listen();
+                }
+            }
+        }
     }
 }

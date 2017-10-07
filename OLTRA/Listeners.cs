@@ -1,7 +1,6 @@
 ﻿namespace OLTRA
 {
 	using System;
-	using System.Timers;
 	using System.Runtime.Serialization;
 	using System.Runtime.Serialization.Formatters.Binary;
 	using System.IO;
@@ -65,7 +64,7 @@
         #endregion
         #region CONSTRUCTORS
         public FileListener() {}
-        public FileListener(string filepath, int listeninterval = 500, string title = null, string description = null, bool enabled = true)
+        public FileListener(string filepath, int listeninterval = 1000, string title = null, string description = null, bool enabled = true)
             :base(title, description, enabled)
         {
             //tmr = new Timer();
@@ -106,13 +105,15 @@
             si.AddValue("FilePath", FilePath);
             si.AddValue("ListenInterval", ListenInterval);
         }
+        public void GetInput(Object stateInfo)
+        {
+            AutoResetEvent autoEvent = (AutoResetEvent)stateInfo;
+            ConsoleMessage.WriteLine(this.Title + " is listening");
+        }
         public override void Listen()
         {
-            while (true)
-            {
-                ConsoleMessage.WriteLine("Text File Listener\n" + Title + "\n" + Description);
-                Thread.Sleep(500);
-            }
+            var autoEvent = new AutoResetEvent(false);
+            Timer tmrListener = new Timer(GetInput,autoEvent, 0, ListenInterval);
         }
         #region EVENT HANDLERS
         #endregion
@@ -176,11 +177,11 @@
         }
         public override void Listen()
         {
-            while (true)
-            {
-                ConsoleMessage.WriteLine("Net Listener\n" + Title + "\n" + Description);
-                Thread.Sleep(500);
-            }
+            //while (true)
+            //{
+            //    ConsoleMessage.WriteLine("Net Listener\n" + Title + "\n" + Description);
+            //    Thread.Sleep(500);
+            //}
         }
         #region EVENT HANDLERS
         #endregion
