@@ -36,9 +36,9 @@
         #region INTERFACES
         #endregion
         #region PROPRERTIES
-        public bool Enabled { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public bool Enabled { get; set; }
         #endregion
         #region INDEXERS
         #endregion

@@ -69,7 +69,7 @@ namespace OLTRA
             /* INSTANTIATE SETTINGS */
             OLTRAsettings = new Settings();
             /* FIND HOME DIRECTORY */
-            string path = Environment.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.Process);   // OLTRA will store settings in $HOME so first it needs to be set!
+            string path = Environment.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.User);   // OLTRA will store settings in $HOME so first it needs to be set!
             if (String.IsNullOrEmpty(path))
             {
                 ConsoleMessage.WriteLine("Home directory not set!");
@@ -280,7 +280,7 @@ namespace OLTRA
                             var type = l.GetType();                                 // Determine the type of the object
                             l = (ListenerBase)Activator.CreateInstance(type);       // Create a new instance of the type
                             l.Title = "New Listener " + (lst_projects[dgv_Projects.SelectedCells[0].RowIndex].lst_Listeners.Count + 1).ToString();
-                            l.Description = String.Format("New {0} Listener Object", l.ToString());
+                            l.Description = l.ToString();
                             lst_projects[dgv_Projects.SelectedCells[0].RowIndex].lst_Listeners.Add(l);
                             dgv_Listeners.DataSource = lst_projects[dgv_Projects.SelectedCells[0].RowIndex].lst_Listeners;
                         }
@@ -395,6 +395,24 @@ namespace OLTRA
                     l.Listen();
                 }
             }
+        }
+
+        private void On_Listeners_Cell_Enter(object sender, DataGridViewCellEventArgs e)
+        {
+            Project p = lst_projects[dgv_Projects.CurrentCell.RowIndex];                                                        
+            var type = p.lst_Listeners[dgv_Listeners.CurrentCell.RowIndex].GetType();
+            var l = Activator.CreateInstance(type);
+            var classProperties = type.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);  // Get the instance properties only
+            var baseProperties = type.BaseType.GetProperties(BindingFlags.Public | BindingFlags.Instance);                      // Get the base class properties only
+            /* POPULATE DATAGRID WITH PROPERTIES */
+            foreach (var prop in classProperties)
+            {
+                DataGridViewColumn c = new DataGridViewColumn();
+              
+                ConsoleMessage.WriteLine(prop.ToString());
+            }
+            var myListener = p.lst_Listeners[dgv_Listeners.CurrentCell.RowIndex];
+            dgv_Listener_Editor.DataSource = myListener;
         }
     }
 }
