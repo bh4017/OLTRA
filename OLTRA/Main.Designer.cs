@@ -29,11 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tcl_Main = new System.Windows.Forms.TabControl();
@@ -48,7 +45,7 @@
             this.gbx_Loggers = new System.Windows.Forms.GroupBox();
             this.dataGridView4 = new System.Windows.Forms.DataGridView();
             this.gbx_Editor_Panel = new System.Windows.Forms.GroupBox();
-            this.btn_Spare = new System.Windows.Forms.Button();
+            this.btn_Edit = new System.Windows.Forms.Button();
             this.cmb_Projects_Type = new System.Windows.Forms.ComboBox();
             this.btn_Projects_Save = new System.Windows.Forms.Button();
             this.btn_Projects_Delete = new System.Windows.Forms.Button();
@@ -72,7 +69,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tmr_Visualisations = new System.Windows.Forms.Timer(this.components);
-            this.dgv_Listener_Editor = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
             this.tcl_Main.SuspendLayout();
             this.tpg_Summary.SuspendLayout();
@@ -96,7 +92,6 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_Listener_Editor)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -241,7 +236,7 @@
             // 
             // gbx_Editor_Panel
             // 
-            this.gbx_Editor_Panel.Controls.Add(this.btn_Spare);
+            this.gbx_Editor_Panel.Controls.Add(this.btn_Edit);
             this.gbx_Editor_Panel.Controls.Add(this.cmb_Projects_Type);
             this.gbx_Editor_Panel.Controls.Add(this.btn_Projects_Save);
             this.gbx_Editor_Panel.Controls.Add(this.btn_Projects_Delete);
@@ -254,16 +249,16 @@
             this.gbx_Editor_Panel.TabStop = false;
             this.gbx_Editor_Panel.Text = "EDITOR PANEL";
             // 
-            // btn_Spare
+            // btn_Edit
             // 
-            this.btn_Spare.Enabled = false;
-            this.btn_Spare.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Spare.Location = new System.Drawing.Point(8, 214);
-            this.btn_Spare.Name = "btn_Spare";
-            this.btn_Spare.Size = new System.Drawing.Size(111, 50);
-            this.btn_Spare.TabIndex = 4;
-            this.btn_Spare.Text = "SPARE";
-            this.btn_Spare.UseVisualStyleBackColor = true;
+            this.btn_Edit.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Edit.Location = new System.Drawing.Point(8, 158);
+            this.btn_Edit.Name = "btn_Edit";
+            this.btn_Edit.Size = new System.Drawing.Size(111, 50);
+            this.btn_Edit.TabIndex = 4;
+            this.btn_Edit.Text = "EDIT";
+            this.btn_Edit.UseVisualStyleBackColor = true;
+            this.btn_Edit.Click += new System.EventHandler(this.btn_Edit_Click);
             // 
             // cmb_Projects_Type
             // 
@@ -278,7 +273,7 @@
             // 
             this.btn_Projects_Save.Enabled = false;
             this.btn_Projects_Save.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Projects_Save.Location = new System.Drawing.Point(8, 158);
+            this.btn_Projects_Save.Location = new System.Drawing.Point(8, 214);
             this.btn_Projects_Save.Name = "btn_Projects_Save";
             this.btn_Projects_Save.Size = new System.Drawing.Size(111, 50);
             this.btn_Projects_Save.TabIndex = 2;
@@ -335,7 +330,6 @@
             // 
             // gbx_Listeners
             // 
-            this.gbx_Listeners.Controls.Add(this.dgv_Listener_Editor);
             this.gbx_Listeners.Controls.Add(this.dgv_Listeners);
             this.gbx_Listeners.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbx_Listeners.Location = new System.Drawing.Point(470, 6);
@@ -353,9 +347,9 @@
             this.dgv_Listeners.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Listeners.Location = new System.Drawing.Point(6, 19);
             this.dgv_Listeners.Name = "dgv_Listeners";
-            this.dgv_Listeners.ReadOnly = true;
-            this.dgv_Listeners.Size = new System.Drawing.Size(459, 211);
+            this.dgv_Listeners.Size = new System.Drawing.Size(459, 267);
             this.dgv_Listeners.TabIndex = 1;
+            this.dgv_Listeners.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.On_Listeners_Cell_End_Edit);
             this.dgv_Listeners.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.On_Listeners_Cell_Enter);
             // 
             // gbx_Projects
@@ -374,20 +368,20 @@
             // 
             this.dgv_Projects.AllowUserToAddRows = false;
             this.dgv_Projects.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Gainsboro;
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
-            this.dgv_Projects.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Gainsboro;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgv_Projects.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_Projects.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.NullValue = null;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.Fuchsia;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Projects.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.NullValue = null;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Fuchsia;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Projects.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_Projects.Location = new System.Drawing.Point(7, 19);
             this.dgv_Projects.Name = "dgv_Projects";
             this.dgv_Projects.Size = new System.Drawing.Size(307, 267);
@@ -526,38 +520,6 @@
             // 
             this.tmr_Visualisations.Enabled = true;
             // 
-            // dgv_Listener_Editor
-            // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_Listener_Editor.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgv_Listener_Editor.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Listener_Editor.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgv_Listener_Editor.Location = new System.Drawing.Point(6, 236);
-            this.dgv_Listener_Editor.Name = "dgv_Listener_Editor";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_Listener_Editor.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.dgv_Listener_Editor.Size = new System.Drawing.Size(459, 50);
-            this.dgv_Listener_Editor.TabIndex = 2;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -595,7 +557,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_Listener_Editor)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -638,10 +599,9 @@
         private System.Windows.Forms.DataGridView dataGridView3;
         private System.Windows.Forms.GroupBox gbx_Loggers;
         private System.Windows.Forms.DataGridView dataGridView4;
-        private System.Windows.Forms.Button btn_Spare;
+        private System.Windows.Forms.Button btn_Edit;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Timer tmr_Visualisations;
-        private System.Windows.Forms.DataGridView dgv_Listener_Editor;
     }
 }
 

@@ -23,8 +23,7 @@ namespace OLTRA
         private BindingList<DebugItem> lst_debug = new BindingList<DebugItem>();
         private BindingList<Project> lst_projects = new BindingList<Project>();
         private BindingList<ListenerBase> lst_lsnr_types = new BindingList<ListenerBase>();
-
-        private SelectedProjectEditor selectedProjectEditor = new SelectedProjectEditor();          // This variable is used to control which Project editor area is selected at any time.
+        private SelectedProjectEditor selectedProjectEditor = new SelectedProjectEditor();          // This variable is used to control which Project editor area is selected at any time.        
         #endregion
         #region CONSTRUCTORS
         public Main()
@@ -313,8 +312,7 @@ namespace OLTRA
                     }
             }
             btn_Projects_Save.Enabled = true;
-        }
-                    
+        }                    
         private void On_btn_Projects_Delete_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow item in dgv_Projects.SelectedRows)
@@ -364,6 +362,121 @@ namespace OLTRA
             // TODO
             // Do the same for the other datagridviews
         }
+        private void btn_Global_1_Click(object sender, EventArgs e)
+        {
+            foreach (Project p in lst_projects)
+            {
+                foreach (ListenerBase l in p.lst_Listeners)
+                {
+                    l.Listen();
+                }
+            }
+        }
+        private void On_Listeners_Cell_Enter(object sender, DataGridViewCellEventArgs e)
+        {
+            
+        }
+        private void btn_Edit_Click(object sender, EventArgs e)
+        {
+            switch (selectedProjectEditor)
+            {
+                case SelectedProjectEditor.Projects:
+                    {
+                       break;
+                    }
+                case SelectedProjectEditor.Listeners:
+                    {
+                        dgv_Listeners.DataSource = null;
+                        dgv_Listeners.Columns.Clear();
+                        dgv_Listeners.DataSource = lst_projects[dgv_Projects.CurrentCell.RowIndex].lst_Listeners;
+                        
+                        Project p = lst_projects[dgv_Projects.CurrentCell.RowIndex];                // Find which project is selected and create a reference to the databound project inside lst_projects.
+                        var type = p.lst_Listeners[dgv_Listeners.CurrentCell.RowIndex].GetType();   // Get the runtime type of the selected listener object
+                        var classProperties = type.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);  // Get the instance properties only
+                        var baseProperties = type.BaseType.GetProperties(BindingFlags.Public | BindingFlags.Instance);                      // Get the base class properties only
+
+                        /* POPULATE DATAGRID WITH COLUMNS */
+                        foreach (var prop in classProperties)
+                        {
+                            DataGridViewCell cell = new DataGridViewTextBoxCell();
+                            DataGridViewColumn col = new DataGridViewColumn(cellTemplate: cell);
+
+                            col.HeaderText = prop.Name;
+                            dgv_Listeners.Columns.Insert(dgv_Listeners.Columns.Count, col);
+                        }
+
+                        /* RESTRICT EDITING TO LISTENERS OF SAME TYPE */
+                        /* POPULATE CELLS WITH VALUES FROM LISTENER */
+                        foreach (DataGridViewRow row in dgv_Listeners.Rows)
+                        {
+                            // Restrict editing
+                            if(row.DataBoundItem.GetType() != type)
+                            {
+                                row.ReadOnly = true;
+                                row.DefaultCellStyle.ForeColor = Color.LightGray;
+                                //row.Visible = false;
+                            }
+                            foreach(DataGridViewCell cell in row.Cells)
+                            {
+                                // Populate cells
+                                foreach (var prop in classProperties)
+                                {
+                                    var listener = cell.OwningRow.DataBoundItem;
+                                    if (cell.OwningColumn.HeaderText == prop.Name)
+                                    {
+                                        try
+                                        {
+                                            cell.Value = prop.GetValue(cell.OwningRow.DataBoundItem, null);
+                                        }
+                                        catch { };
+                                    }
+                                }
+                            }
+                        }
+                        break;
+
+                        /* CUSTOM LISTENER EDITING */
+                        // If your listener requires more complex editing than can be serviced in the datagridview,
+                        // then you can write your own editing handler and these instructions will call it.
+                        // If you do not require this functionality, leave the edit() method blank.
+                        ListenerBase l = (ListenerBase)dgv_Listeners.CurrentRow.DataBoundItem;
+                        l.Edit();
+                    }
+                case SelectedProjectEditor.Loggers:
+                    {
+                        break;
+                    }
+                case SelectedProjectEditor.ExtractionEngines:
+                    {
+
+                        break;
+                    }
+                case SelectedProjectEditor.Alerts:
+                    {
+
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
+        private void On_Listeners_Cell_End_Edit(object sender, DataGridViewCellEventArgs e)
+        {
+            btn_Projects_Save.Enabled = true;
+            DataGridView dgv = (DataGridView)sender;
+            /* GET PROPERTIES OF CURRENT LISTENER */
+            var listener = dgv.CurrentRow.DataBoundItem;
+            var type = listener.GetType();
+            var classProperties = type.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);  // Get the instance properties only
+
+            foreach (var prop in classProperties)
+            {
+                if (prop.Name == dgv.CurrentCell.OwningColumn.HeaderText)
+                    prop.SetValue(listener, Convert.ChangeType(dgv.CurrentCell.Value, prop.PropertyType), null);
+            }
+        }
         #endregion
         #endregion
         #region STRUCTS
@@ -385,34 +498,5 @@ namespace OLTRA
             }
         }
         #endregion 
-
-        private void btn_Global_1_Click(object sender, EventArgs e)
-        {
-            foreach (Project p in lst_projects)
-            {
-                foreach (ListenerBase l in p.lst_Listeners)
-                {
-                    l.Listen();
-                }
-            }
-        }
-
-        private void On_Listeners_Cell_Enter(object sender, DataGridViewCellEventArgs e)
-        {
-            Project p = lst_projects[dgv_Projects.CurrentCell.RowIndex];                                                        
-            var type = p.lst_Listeners[dgv_Listeners.CurrentCell.RowIndex].GetType();
-            var l = Activator.CreateInstance(type);
-            var classProperties = type.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);  // Get the instance properties only
-            var baseProperties = type.BaseType.GetProperties(BindingFlags.Public | BindingFlags.Instance);                      // Get the base class properties only
-            /* POPULATE DATAGRID WITH PROPERTIES */
-            foreach (var prop in classProperties)
-            {
-                DataGridViewColumn c = new DataGridViewColumn();
-              
-                ConsoleMessage.WriteLine(prop.ToString());
-            }
-            var myListener = p.lst_Listeners[dgv_Listeners.CurrentCell.RowIndex];
-            dgv_Listener_Editor.DataSource = myListener;
-        }
     }
 }

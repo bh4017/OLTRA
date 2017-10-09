@@ -6,6 +6,7 @@
 	using System.IO;
 	using System.Collections.Generic;
     using System.Threading;
+    using System.Windows.Forms;
     using HelperClassesBJH;
 
     #region LISTENER BASE CLASS
@@ -44,6 +45,7 @@
         #endregion
         #region METHODS
         public abstract void Listen();
+        public abstract void Edit();
         #region EVENT HANDLERS
         #endregion
         #endregion
@@ -60,7 +62,8 @@
         #region CONSTANT FIELDS
         #endregion
         #region FIELDS
-        //private Timer tmr;
+        private string _filePath;
+        private int _listenInterval;
         #endregion
         #region CONSTRUCTORS
         public FileListener() {}
@@ -91,7 +94,16 @@
         #region INTERFACES
         #endregion
         #region PROPRERTIES
-        public string FilePath { get; protected set; }
+        public string FilePath
+        {
+            get { return _filePath; }
+            set
+            {
+                if (!Directory.Exists(value))
+                    MessageBox.Show("WARNING: The path you have entered does not exist on this system!", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _filePath = value;
+            }
+        }
         public int ListenInterval { get; set; }
         #endregion
         #region INDEXERS
@@ -113,7 +125,11 @@
         public override void Listen()
         {
             var autoEvent = new AutoResetEvent(false);
-            Timer tmrListener = new Timer(GetInput,autoEvent, 0, ListenInterval);
+            System.Threading.Timer tmrListener = new System.Threading.Timer(GetInput, autoEvent, 0, Convert.ToInt32(ListenInterval));
+        }
+        public override void Edit()
+        {
+            
         }
         #region EVENT HANDLERS
         #endregion
@@ -182,6 +198,10 @@
             //    ConsoleMessage.WriteLine("Net Listener\n" + Title + "\n" + Description);
             //    Thread.Sleep(500);
             //}
+        }
+        public override void Edit()
+        {
+            throw new NotImplementedException();
         }
         #region EVENT HANDLERS
         #endregion
