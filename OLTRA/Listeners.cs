@@ -3,6 +3,7 @@
 	using System;
 	using System.Runtime.Serialization;
 	using System.Runtime.Serialization.Formatters.Binary;
+    using System.Text.RegularExpressions;
 	using System.IO;
 	using System.Collections.Generic;
     using System.Threading;
@@ -44,7 +45,7 @@
         #region INDEXERS
         #endregion
         #region METHODS
-        public abstract void Listen();
+        public abstract void Listen(bool startStop);
         public abstract void Edit();
         #region EVENT HANDLERS
         #endregion
@@ -63,16 +64,16 @@
         #endregion
         #region FIELDS
         private string _filePath;
-        private int _listenInterval;
         #endregion
         #region CONSTRUCTORS
         public FileListener() {}
-        public FileListener(string filepath, int listeninterval = 1000, string title = null, string description = null, bool enabled = true)
+        public FileListener(string filepath, int listeninterval = 1000, string fileFilter = "*", string title = null, string description = null, bool enabled = true)
             :base(title, description, enabled)
         {
             //tmr = new Timer();
             FilePath = filepath;
             ListenInterval = listeninterval;
+            FileFilter = fileFilter;
         }
         protected FileListener(SerializationInfo si, StreamingContext sc)
         {
@@ -81,6 +82,7 @@
             Enabled = si.GetBoolean("Enabled");
             FilePath = si.GetString("FilePath");
             ListenInterval = si.GetInt32("ListenInterval");
+            FileFilter = si.GetString("FileFilter");
         }
         #endregion
         #region DESTRUCTORS
@@ -105,6 +107,7 @@
             }
         }
         public int ListenInterval { get; set; }
+        public string FileFilter { get; set; }
         #endregion
         #region INDEXERS
         #endregion
@@ -116,13 +119,32 @@
             si.AddValue("Enabled", Enabled);
             si.AddValue("FilePath", FilePath);
             si.AddValue("ListenInterval", ListenInterval);
+            si.AddValue("FileFilter", FileFilter);
         }
         public void GetInput(Object stateInfo)
         {
             AutoResetEvent autoEvent = (AutoResetEvent)stateInfo;
-            ConsoleMessage.WriteLine(this.Title + " is listening");
+            /* SCAN DIRECTORY */
+            Regex rgx_filter = new Regex(FileFilter);
+            string[] files = Directory.GetFiles(FilePath);
+            if (files.GetUpperBound(0) < 1)
+            {
+                // ConsoleMessage.WriteLine(this.Title + " scanned " + FilePath + ", no files found.");
+                return;
+            }
+            foreach (string f in files)
+            {
+                if (rgx_filter.IsMatch(f))
+                {
+                    ConsoleMessage.WriteLine("Matching file " + f + " found by " + this.Title);
+                }
+                else
+                {
+                    // ConsoleMessage.WriteLine(this.Title + " scanned " + FilePath + ", files found but no match.  Ignoring.");
+                }
+            }
         }
-        public override void Listen()
+        public override void Listen(bool startStop)
         {
             var autoEvent = new AutoResetEvent(false);
             System.Threading.Timer tmrListener = new System.Threading.Timer(GetInput, autoEvent, 0, Convert.ToInt32(ListenInterval));
@@ -191,7 +213,7 @@
             si.AddValue("IP", IP);
             si.AddValue("Port", Port);
         }
-        public override void Listen()
+        public override void Listen(bool startStop)
         {
             //while (true)
             //{

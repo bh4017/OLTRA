@@ -364,12 +364,21 @@ namespace OLTRA
         }
         private void btn_Global_1_Click(object sender, EventArgs e)
         {
-            foreach (Project p in lst_projects)
+            Button b = (Button)sender;
+            if (b.Text == "START")
             {
-                foreach (ListenerBase l in p.lst_Listeners)
+                b.Text = "STOP";
+                foreach (Project p in lst_projects)
                 {
-                    l.Listen();
+                    foreach (ListenerBase l in p.lst_Listeners)
+                    {
+                        l.Listen(true);
+                    }
                 }
+            }
+            else
+            {
+                b.Text = "START";
             }
         }
         private void On_Listeners_Cell_Enter(object sender, DataGridViewCellEventArgs e)
@@ -433,14 +442,13 @@ namespace OLTRA
                                 }
                             }
                         }
-                        break;
-
                         /* CUSTOM LISTENER EDITING */
                         // If your listener requires more complex editing than can be serviced in the datagridview,
                         // then you can write your own editing handler and these instructions will call it.
                         // If you do not require this functionality, leave the edit() method blank.
                         ListenerBase l = (ListenerBase)dgv_Listeners.CurrentRow.DataBoundItem;
                         l.Edit();
+                        break;
                     }
                 case SelectedProjectEditor.Loggers:
                     {
