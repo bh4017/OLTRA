@@ -32,6 +32,11 @@
         #region DELEGATES
         #endregion
         #region EVENTS
+        public event EventHandler<InformationReceivedEventArgs> InformationReceived;
+        public void OnInformationReceived(InformationReceivedEventArgs e)
+        {
+            if (InformationReceived != null) { InformationReceived(this, e); }
+        }
         #endregion
         #region ENUMS
         #endregion
@@ -53,6 +58,22 @@
         #region STRUCTS
         #endregion
         #region CLASSES
+        public class InformationReceivedEventArgs : EventArgs
+        {
+            public string Information { get; set; }
+            public List<string> InformationByLine { get; set; }
+
+            public InformationReceivedEventArgs() 
+            {
+                InformationByLine = new List<string>();
+            }
+            public InformationReceivedEventArgs(string info = "", List<string> lst_information = null)
+            {
+                InformationByLine = new List<string>();
+                Information = info;
+                InformationByLine = lst_information;
+            }
+        }
         #endregion
     }
     #endregion
@@ -127,7 +148,7 @@
             /* SCAN DIRECTORY */
             Regex rgx_filter = new Regex(FileFilter);
             string[] files = Directory.GetFiles(FilePath);
-            if (files.GetUpperBound(0) < 1)
+            if (files.Length < 1)
             {
                 // ConsoleMessage.WriteLine(this.Title + " scanned " + FilePath + ", no files found.");
                 return;
@@ -137,6 +158,24 @@
                 if (rgx_filter.IsMatch(f))
                 {
                     ConsoleMessage.WriteLine("Matching file " + f + " found by " + this.Title);
+                    try
+                    {
+                        using (StreamReader sr = new StreamReader(f))
+                        {
+                            InformationReceivedEventArgs e = new InformationReceivedEventArgs();
+                            int i = 0;
+                            while (!sr.EndOfStream)
+                            {
+                                e.InformationByLine.Add(sr.ReadLine());
+                            }
+                            OnInformationReceived(e);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // TODO Put error handling here
+                        ConsoleMessage.WriteLine("Failed to extract text file data: " + ex.Message);
+                    }
                 }
                 else
                 {
@@ -234,6 +273,5 @@
         #endregion
     }             
     #endregion
-
 }
 

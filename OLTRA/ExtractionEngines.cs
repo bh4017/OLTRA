@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text;
 
-    public class ExtractionEngines
+    public abstract class ExtractionEngineBase
     {
         #region CONSTANT FIELDS
         #endregion
@@ -24,6 +24,7 @@
         #region INTERFACES
         #endregion
         #region PROPRERTIES
+
         #endregion
         #region INDEXERS
         #endregion
