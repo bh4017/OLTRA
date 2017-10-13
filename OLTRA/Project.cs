@@ -19,6 +19,7 @@ namespace OLTRA
         public Project () 
         {
             lst_Listeners = new BindingList<ListenerBase>();
+            lst_Extraction_Engines = new BindingList<ExtractionEngineBase>();
         }
         public Project(string title = "", string description = "", bool status = true)
         {
@@ -32,6 +33,7 @@ namespace OLTRA
             Description = si.GetString("Description");
             Status = si.GetBoolean("Status");
             lst_Listeners = (BindingList<ListenerBase>)si.GetValue("Listeners", typeof(BindingList<ListenerBase>));
+            lst_Extraction_Engines = (BindingList<ExtractionEngineBase>)si.GetValue("ExtractionEngines", typeof(BindingList<ExtractionEngineBase>));
         }
         #endregion
         #region DESTRUCTORS
@@ -49,6 +51,7 @@ namespace OLTRA
         public string Description { get; set; }
         public bool Status { get; set; }
 		public BindingList<ListenerBase> lst_Listeners { get; set; }
+        public BindingList<ExtractionEngineBase> lst_Extraction_Engines { get; set; }
         #endregion
         #region INDEXERS
         #endregion
@@ -58,7 +61,8 @@ namespace OLTRA
             si.AddValue("Title", Title);
             si.AddValue("Description", Description);
             si.AddValue("Status", Status);
-            si.AddValue("Listeners", lst_Listeners);    
+            si.AddValue("Listeners", lst_Listeners);
+            si.AddValue("ExtractionEngines", lst_Extraction_Engines);
         }
         #region EVENT HANDLERS
         #endregion

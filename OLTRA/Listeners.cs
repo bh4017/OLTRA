@@ -163,7 +163,7 @@
                         using (StreamReader sr = new StreamReader(f))
                         {
                             InformationReceivedEventArgs e = new InformationReceivedEventArgs();
-                            int i = 0;
+                            
                             while (!sr.EndOfStream)
                             {
                                 e.InformationByLine.Add(sr.ReadLine());

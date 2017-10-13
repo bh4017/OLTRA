@@ -1,28 +1,28 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Configuration;
-using System.IO;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text.RegularExpressions;
-using System.Reflection;
-using System.Linq;
-using System.ComponentModel;
-using HelperClassesBJH;
-
-namespace OLTRA
+﻿namespace OLTRA
 {
+    using System;
+    using System.Windows.Forms;
+    using System.Configuration;
+    using System.IO;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Runtime.Serialization;
+    using System.Runtime.Serialization.Formatters.Binary;
+    using System.Text.RegularExpressions;
+    using System.Reflection;
+    using System.Linq;
+    using System.ComponentModel;
+    using HelperClassesBJH;
+
     public partial class Main : Form
     {
         #region CONSTANT FIELDS
         #endregion
         #region FIELDS
-        private BindingList<DebugItem> lst_debug = new BindingList<DebugItem>();
         private BindingList<Project> lst_projects = new BindingList<Project>();
         private BindingList<ListenerBase> lst_lsnr_types = new BindingList<ListenerBase>();
+        private BindingList<ExtractionEngineBase> lst_ee_types = new BindingList<ExtractionEngineBase>();
         private SelectedProjectEditor selectedProjectEditor = new SelectedProjectEditor();          // This variable is used to control which Project editor area is selected at any time.        
         #endregion
         #region CONSTRUCTORS
@@ -52,6 +52,7 @@ namespace OLTRA
         #region INTERFACES
         #endregion
         #region PROPRERTIES
+        public BindingList<DebugItem> lst_Debug { get; set; }
         public Settings OLTRAsettings { get; set; }
         public string Home { get; set; }
         public string SettingsFile { get; private set; }
@@ -61,6 +62,13 @@ namespace OLTRA
         #region METHODS
         private bool Startup()
         {
+            lst_Debug = new BindingList<DebugItem>();
+            dgv_Debug.DataSource = lst_Debug;
+            dgv_Debug.BackgroundColor = Color.Black;
+            dgv_Debug.Columns[0].Width = 125;
+            dgv_Debug.Columns[1].Width = 50;
+            dgv_Debug.Columns[2].Width = 900;
+
             ConsoleMessage.MessageOutput += new EventHandler<MessageEventArgs>(On_MessageOutput);
             ConsoleMessage.WriteLine("Running initial startup routine.");
             ConsoleMessage.WriteLine("Detected platform: " + Environment.OSVersion.Platform.ToString());
@@ -144,10 +152,18 @@ namespace OLTRA
             foreach (Type t in types)
             {
                 var o = (Activator.CreateInstance(t));
-                lst_lsnr_types.Add((ListenerBase)o);   // The combobox shows the information in parameter 1 so we know what type of listener we're selecting.  It may be possible to do all this with one column instead using a CellRenderer method. 2017-08-20 BJH.
-                ConsoleMessage.WriteLine("> Found " + o.ToString());
+                lst_lsnr_types.Add((ListenerBase)o);   // The combobox shows the information in parameter 1 so we know what type of listener we're selecting. 
+                ConsoleMessage.WriteLine("> Found Listener: " + o.ToString());
             }
             //cmb_lsnr_type.Active = 0;
+            /* SETUP EXTRACTION ENGINE COMBOBOX */
+            types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.IsSubclassOf(typeof(ExtractionEngineBase)));
+            foreach (Type t in types)
+            {
+                var o = (Activator.CreateInstance(t));
+                lst_ee_types.Add((ExtractionEngineBase)o);   // The combobox shows the information in parameter 1 so we know what type of extraction engine we're selecting. 
+                ConsoleMessage.WriteLine("> Found Extraction Engine: " + o.ToString());
+            }
             return false;
         }
         private void LoadProjects()
@@ -213,16 +229,16 @@ namespace OLTRA
         private void On_MessageOutput(object sender, MessageEventArgs e)
         {
             string t = String.Format("{0:yyyy-MM-dd  HH:mm:ss.ff}", e.Dt);
-            string colour = "Green";
+            Color colour = Color.LimeGreen;
             string type = "INFO";
             switch (e.Type)
             {
                 case MessageBoxIcon.Warning:
-                    colour = "Yellow";
+                    colour = Color.Yellow;
                     type = "INFO";
                     break;
                 case MessageBoxIcon.Error:
-                    colour = "Red";
+                    colour = Color.Red;
                     type = "ERROR";
                     break;
                 default:
@@ -230,7 +246,8 @@ namespace OLTRA
                     break;
             }
             DebugItem d = new DebugItem(t, type, e.Message);
-            lst_debug.Add(d);
+            lst_Debug.Add(d);
+            
         }
         private void On_Editor_Listener_Selected(object sender, EventArgs e)
         {
@@ -254,12 +271,13 @@ namespace OLTRA
         {
             GroupBox gbx = (GroupBox)sender;
             SelectProjectEditor(SelectedProjectEditor.ExtractionEngines, gbx);
-            cmb_Projects_Type.DataSource = null;
+            cmb_Projects_Type.DataSource = lst_ee_types;
         }
         private void On_btn_Projects_Add_Click(object sender, EventArgs e)
         {
             switch (selectedProjectEditor)
             {
+                #region PROJECTS
                 case SelectedProjectEditor.Projects:
                     {
                         Project p = new Project();
@@ -270,6 +288,8 @@ namespace OLTRA
                         dgv_Projects.DataSource = lst_projects;
                         break;
                     }
+                #endregion
+                #region LISTENERS
                 case SelectedProjectEditor.Listeners:
                     {
                         if (dgv_Projects.SelectedCells.Count > 0)
@@ -289,27 +309,50 @@ namespace OLTRA
                         }
                         break;
                     }
+                #endregion
+                #region LOGGERS
                 case SelectedProjectEditor.Loggers:
                     {
 
                         break;
                     }
+                #endregion
+                #region EXTRACTION ENGINES
                 case SelectedProjectEditor.ExtractionEngines:
                     {
-
+                        if (dgv_Projects.SelectedCells.Count > 0)
+                        {
+                            //ConsoleMessage.WriteLine("Adding extraction engine to " + ((ExtractionEngineBase)dgv_Projects.CurrentCell.OwningRow.DataBoundItem).Title);
+                            var ee = (ExtractionEngineBase)cmb_Projects_Type.SelectedValue; // Get the selected Extraction Engine type from the Add combobox
+                            var type = ee.GetType();                                        // Determine the type of Extraction Engine
+                            var new_ee = (ExtractionEngineBase)Activator.CreateInstance(type);
+                            Project p = (Project)dgv_Projects.CurrentCell.OwningRow.DataBoundItem;
+                            new_ee.Title = "New Extraction Engine ";
+                            p.lst_Extraction_Engines.Add(new_ee);
+                            dgv_Extraction_Engines.DataSource = p.lst_Extraction_Engines;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Select a project to add the Extraction Engine to!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                         break;
                     }
+                #endregion
+                #region ALERTS
                 case SelectedProjectEditor.Alerts:
                     {
 
                         break;
                     }
+                #endregion
+                #region DEFAULT
                 default:
                     {
 
                         break;
 
                     }
+                #endregion
             }
             btn_Projects_Save.Enabled = true;
         }                    
@@ -380,10 +423,6 @@ namespace OLTRA
             {
                 b.Text = "START";
             }
-        }
-        private void On_Listeners_Cell_Enter(object sender, DataGridViewCellEventArgs e)
-        {
-            
         }
         private void btn_Edit_Click(object sender, EventArgs e)
         {
